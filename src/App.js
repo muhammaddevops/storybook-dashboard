@@ -5,9 +5,9 @@ function App() {
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
-  console.log(getRandomInt(2));
-  let randomNumb = getRandomInt(2);
-  let tipAtRuntime = randomNumb;
+  console.log("array length", sustainabilityTips.length);
+  let randomTip = getRandomInt(sustainabilityTips.length);
+  let tipAtRuntime = randomTip;
 
   return (
     <div className="App">
@@ -31,11 +31,11 @@ function App() {
         <div className="spinner-sector spinner-sector-green"></div>
       </div>
       <p>
-        {sustainabilityTips[tipAtRuntime].message}{" "}
+        Tip: {sustainabilityTips[tipAtRuntime].message}{" "}
         <a href={sustainabilityTips[tipAtRuntime].link} target="_blank">
-          Click here to learn how
-        </a>
-        .
+          Click here
+        </a>{" "}
+        to learn how.
       </p>
       {console.log("tipAtRuntime >", tipAtRuntime)}
     </div>

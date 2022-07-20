@@ -5,7 +5,7 @@ export const sustainabilityTips = [
   },
   {
     message:
-      "Tip: you can set targets for your organisation & compare them to your industry benchmark targets.",
+      "You can set targets for your organisation & compare them to your industry benchmark targets.",
     link: "https://icons.getbootstrap.com/icons/bar-chart-line-fill/",
   },
 ];
