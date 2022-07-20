@@ -32,10 +32,7 @@
 .spinner-children p {
   margin: 0;
 }
-.spinner-children svg {
-  font-size: 2rem;
-  width: 100%;
-}
+
 .spinner-sector {
   position: absolute;
   width: 100%;
@@ -48,19 +45,19 @@
 }
 
 .spinner-sector-red {
-  border-top-color: lightcoral;
+  border-top-color: #b9e472;
   --duration: 1.5s;
   --timing: ease-in-out;
 }
 
 .spinner-sector-blue {
-  border-left-color: lightblue;
+  border-left-color: #f3f3f3;
   --duration: 2s;
   --timing: ease-in;
 }
 
 .spinner-sector-green {
-  border-right-color: lightgreen;
+  border-right-color: #233b4b;
   --duration: 2.5s;
   --timing: ease-out;
 }
@@ -87,4 +84,9 @@
   100% {
     color: rgba(0, 0, 0, 0.2);
   }
+}
+
+.tips {
+  text-align: center;
+  padding: 1rem;
 }

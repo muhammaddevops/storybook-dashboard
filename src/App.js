@@ -30,13 +30,19 @@ function App() {
         <div className="spinner-sector spinner-sector-blue"></div>
         <div className="spinner-sector spinner-sector-green"></div>
       </div>
-      <p>
-        Tip: {sustainabilityTips[tipAtRuntime].message}{" "}
-        <a href={sustainabilityTips[tipAtRuntime].link} target="_blank">
-          Click here
-        </a>{" "}
-        to learn how.
-      </p>
+      <div className="tips">
+        <p>
+          Tip: {sustainabilityTips[tipAtRuntime].message}{" "}
+          <a
+            href={sustainabilityTips[tipAtRuntime].link}
+            rel="noreferrer"
+            target="_blank"
+          >
+            Click here
+          </a>{" "}
+          to learn how.
+        </p>
+      </div>
       {console.log("tipAtRuntime >", tipAtRuntime)}
     </div>
   );
