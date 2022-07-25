@@ -1,8 +1,8 @@
-*,
+/* *,
 *::after,
 *::before {
   box-sizing: border-box;
-}
+} */
 
 .App {
   display: flex;

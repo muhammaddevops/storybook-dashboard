@@ -37,6 +37,7 @@ function App() {
             href={sustainabilityTips[tipAtRuntime].link}
             rel="noreferrer"
             target="_blank"
+            className="badge badge-dark"
           >
             Click here
           </a>{" "}
