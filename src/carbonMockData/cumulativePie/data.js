@@ -25,20 +25,3 @@
     value: 2,
   },
 ];
-
-/*
-
-Options
-
-{
-  "title": "Cumulative Pie Chart of Metrics",
-  "resizable": true,
-  "donut": {
-    "center": {
-      "label": "Metrics"
-    }
-  },
-  "height": "400px"
-} 
-
-*/

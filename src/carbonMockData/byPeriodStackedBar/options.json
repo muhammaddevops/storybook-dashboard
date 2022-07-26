@@ -1,0 +1,14 @@
+{
+  "title": "By period metrics (stacked bar)",
+  "axes": {
+    "left": {
+      "mapsTo": "value",
+      "stacked": true
+    },
+    "bottom": {
+      "mapsTo": "key",
+      "scaleType": "labels"
+    }
+  },
+  "height": "400px"
+}

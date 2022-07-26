@@ -1,124 +1,102 @@
-//Data
-[
+export default [
   {
     group: "Metric 1",
     key: "Jan 22",
-    value: 65000,
+    value: 3,
   },
   {
     group: "Metric 1",
     key: "Feb 22",
-    value: 29123,
+    value: 2,
   },
   {
     group: "Metric 1",
     key: "Mar 22",
-    value: 35213,
+    value: 1,
   },
   {
     group: "Metric 1",
     key: "Apr 22",
-    value: 51213,
+    value: 5,
   },
   {
     group: "Metric 1",
     key: "Misc",
-    value: 16932,
+    value: 6,
   },
   {
     group: "Metric 2",
     key: "Jan 22",
-    value: 32432,
+    value: 0.8,
   },
   {
     group: "Metric 2",
     key: "Feb 22",
-    value: 21312,
+    value: 2.5,
   },
   {
     group: "Metric 2",
     key: "Mar 22",
-    value: 56456,
+    value: 3.2,
   },
   {
     group: "Metric 2",
     key: "Apr 22",
-    value: 21312,
+    value: 4.5,
   },
   {
     group: "Metric 2",
     key: "Misc",
-    value: 34234,
+    value: 2.2,
   },
   {
     group: "Metric 3",
     key: "Jan 22",
-    value: 12312,
+    value: 5.6,
   },
   {
     group: "Metric 3",
     key: "Feb 22",
-    value: 23232,
+    value: 3.4,
   },
   {
     group: "Metric 3",
     key: "Mar 22",
-    value: 34232,
+    value: 7.2,
   },
   {
     group: "Metric 3",
     key: "Apr 22",
-    value: 12312,
+    value: 3,
   },
   {
     group: "Metric 3",
     key: "Misc",
-    value: 34234,
+    value: 4,
   },
   {
     group: "Metric 4",
     key: "Jan 22",
-    value: 32423,
+    value: 2,
   },
   {
     group: "Metric 4",
     key: "Feb 22",
-    value: 21313,
+    value: 2,
   },
   {
     group: "Metric 4",
     key: "Mar 22",
-    value: 64353,
+    value: 2,
   },
   {
     group: "Metric 4",
     key: "Apr 22",
-    value: 24134,
+    value: 2,
   },
   {
     group: "Metric 4",
     key: "Misc",
-    value: 32423,
+    value: 2,
   },
 ];
-
-//Options
-/* 
-
-
-{
-  "title": "By period metrics (stacked bar)",
-  "axes": {
-    "left": {
-      "mapsTo": "value",
-      "stacked": true
-    },
-    "bottom": {
-      "mapsTo": "key",
-      "scaleType": "labels"
-    }
-  },
-  "height": "400px"
-}
-
-*/

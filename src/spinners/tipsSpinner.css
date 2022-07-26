@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-.App {
+.tip-spinner {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,9 +13,10 @@
 }
 
 .spinner {
+  background: none;
+  margin: 0;
   width: 300px;
   height: 300px;
-  display: flex;
   justify-content: center;
   align-items: center;
   line-height: 1.6;
@@ -42,19 +43,19 @@
   pointer-events: none;
 }
 
-.spinner-sector-red {
+.spinner-sector-top {
   border-top-color: #b9e472;
   --duration: 1.5s;
   --timing: ease-in-out;
 }
 
-.spinner-sector-blue {
+.spinner-sector-left {
   border-left-color: #f3f3f3;
   --duration: 2s;
   --timing: ease-in;
 }
 
-.spinner-sector-green {
+.spinner-sector-right {
   border-right-color: #233b4b;
   --duration: 2.5s;
   --timing: ease-out;
