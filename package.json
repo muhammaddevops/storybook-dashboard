@@ -1,6 +1,7 @@
 {
   "name": "@mtumi/storybook-dashboard",
   "version": "0.1.0",
+  "repository": "muhammaddevops/storybook-dashboard",
   "private": false,
   "dependencies": {
     "@carbon/charts-react": "^1.5.0",
