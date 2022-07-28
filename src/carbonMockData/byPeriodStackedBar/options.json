@@ -1,5 +1,5 @@
 {
-  "title": "By period metrics (stacked bar)",
+  "title": "By period metrics Vertical stacked bar",
   "axes": {
     "left": {
       "mapsTo": "value",

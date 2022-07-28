@@ -1,6 +1,7 @@
 import TipsSpinner from "./spinners/tipsSpinner";
 import { sustainabilityTips } from "./spinners/sustainabilityTips";
 import StackedBarPopulated from "./chartComponents/StackedBarChart";
+import HorizontalStackedBarPopulated from "./chartComponents/horizontalStackedBar";
 
 function App() {
   function getRandomInt(max) {
@@ -14,6 +15,7 @@ function App() {
     <>
       <TipsSpinner />
       <StackedBarPopulated />
+      <HorizontalStackedBarPopulated />
     </>
   );
 }

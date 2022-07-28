@@ -1,0 +1,14 @@
+{
+  "title": "Horizontal stacked bar (discrete)",
+  "axes": {
+    "left": {
+      "scaleType": "labels",
+      "mapsTo": "key"
+    },
+    "bottom": {
+      "stacked": true,
+      "mapsTo": "value"
+    }
+  },
+  "height": "400px"
+}
