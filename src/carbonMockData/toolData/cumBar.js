@@ -18,13 +18,13 @@ const chartColors = () => {
 };
 const chartData = [
   {
-    group: "Waste",
+    group: "Waste  ",
     value: toolDataJs[0].ISSUE_RAG_DATA.Waste.value,
   },
 ];
 
 const chartOptions = {
-  title: "Cumulative Data",
+  title: "Cumulative Data ",
   color: {
     scale: { Waste: chartColors() },
   },

@@ -38,7 +38,7 @@ export const ISSUE_RAG_DATA = [
         category_id: "39d850cb-9fbc-4f13-983c-8841e675be11",
       },
       Waste: {
-        rag: "r",
+        rag: "g",
         color_value: 0,
         value: 59.09439754412892,
         category_id: "03e070b9-f6fe-45de-95e9-b6d9b58fcd3d",
