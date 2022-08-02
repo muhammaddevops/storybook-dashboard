@@ -7,11 +7,84 @@ import TipsSpinner from "./spinners/tipsSpinner";
 //import CumHorizBarPop from "./carbonMockData/toolData/cumBar";
 import HorizontalBarChart from "./carbonMockData/toolData/horizontalBarChart"
 import { ISSUE_RAG_DATA } from "./carbonMockData/toolData/_data";
+import { ErrorBoundary } from "traec-react/errors/handleError";
 
-import { BSCardGrid } from "traec-react/utils/bootstrap";
+import { BSCardGrid, BSCard } from "traec-react/utils/bootstrap";
 import CategoryIcon from "./legacy/icons/category";
+import IndicatorIcon from "./legacy/icons/indicator";
 
 import Traec from "traec"
+
+
+function IndicatorIcons({category}) {
+
+  let [selected, setSelected] = useState(Traec.Im.Set())
+  let [maxIconHeight, setMaxIconHeight] = useState(0)
+  let [order, setOrder] = useState(Traec.Im.Map())
+
+  let hostId = "sustool"
+  let iconWidth = "col-sm-6 col-md-3 col-l-2 col-xl-2";
+
+  let iconColors = Traec.Im.fromJS([
+    {
+      name: "% of people aged 20-25",
+      color: "#ff0000",
+      _key: "i01",
+
+    },
+    {
+      name: "% of people aged 25-30",
+      color: "#ff0000",
+      _key: "i01",
+
+    }
+  ])
+
+  let iconHeightHandler = () => {
+    console.log("iconHeightHandler not implemented")
+  }
+
+  let selectIndicator = () => {
+    console.log("selectIndicator not implemented")
+  }
+
+  let setSelectedIndicator = () => {
+    console.log("setSelectedIndicator not implemented")
+  }
+
+  let icons = iconColors
+    .sortBy(iconData => (order ? order.get(iconData.get("name"), 1e6) : iconData.get("name")))
+    .map((iconData, i) => (
+      <IndicatorIcon
+        key={i}
+        hostId={hostId}
+        widthOffset={iconWidth}
+        iconCategory={category}
+        iconName={iconData.get("name")}
+        iconColor={iconData.get("color")}
+        iconHeightHandler={iconHeightHandler}
+        iconHeight={maxIconHeight}
+        indicatorId={iconData.get("_key")}
+        iconPath={`AAA00${i}`}
+        selected={selected.has(iconData.get("_key"))}
+        setOrder={setOrder}
+        order={order}
+        index={i}
+        onClickHandler={() => selectIndicator(iconData, setSelected, selected, setSelectedIndicator)}
+      />
+    ));
+
+  return (
+    <div className="row">
+      <BSCard
+        widthOffset="col-sm-12"
+        title={`Indicators`}
+        body={<div className="row">{icons}</div>}
+      />
+    </div>
+  )
+
+}
 
 
 function IssueIcons() {
@@ -20,6 +93,7 @@ function IssueIcons() {
   let [maxIconHeight, setMaxIconHeight] = useState(0)
 
   let hostId = "sustool"
+  let iconWidth = "col-sm-6 col-md-3 col-l-2 col-xl-2";
 
   let iconColors = Traec.Im.fromJS([
     {
@@ -35,8 +109,6 @@ function IssueIcons() {
       color: "#0000ff"
     }
   ])
-
-  let iconWidth = "col-sm-6 col-md-3 col-l-2 col-xl-2";
 
   let iconHeightHandler = () => {
     console.log("iconHeightHandler not implemented")
@@ -97,10 +169,21 @@ function MockDashboard() {
   }
 
   return (
-    <>
-      <IssueIcons />
-      <HorizontalBarChart />
-    </>
+    <ErrorBoundary>
+
+      <ErrorBoundary>
+        <IssueIcons />
+      </ErrorBoundary>
+      
+      <ErrorBoundary>
+        <IndicatorIcons />
+      </ErrorBoundary>
+
+      <ErrorBoundary>
+        <HorizontalBarChart />
+      </ErrorBoundary>
+      
+    </ErrorBoundary>
   )
 }
 
