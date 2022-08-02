@@ -6,21 +6,18 @@
   "private": false,
   "dependencies": {
     "@carbon/charts-react": "^1.5.0",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^13.5.0",
     "bootstrap": "4.6",
     "chart.js": "^3.8.2",
     "d3": "^7.6.1",
     "faker": "^6.6.6",
     "node-sass": "^7.0.1",
-    "react": "^18.2.0",
+    "react": "^17.0.2",
     "react-chartjs-2": "^4.3.1",
-    "react-dom": "^18.2.0",
+    "react-dom": "^17.0.2",
     "react-octicon": "^3.0.1",
     "react-scripts": "5.0.1",
-    "traec": "^1.1.205",
-    "traec-react": "^0.1.254",
+    "traec": "^1.1.208",
+    "traec-react": "^0.1.255",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -60,6 +57,9 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",

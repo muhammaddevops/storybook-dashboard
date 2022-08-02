@@ -1,13 +1,18 @@
 import React, {useState, useEffect} from "react"
 import TipsSpinner from "./spinners/tipsSpinner";
+
+/*
 import StackedBarPopulated from "./chartComponents/StackedBarChart";
 import HorizontalStackedBarPopulated from "./chartComponents/horizontalStackedBar";
 //import CumHorizBarPop from "./carbonMockData/toolData/cumBar";
-import HorizontalBarChart from "./carbonMockData/toolData/horizontalBarChart"
+//import HorizontalBarChart from "./carbonMockData/toolData/horizontalBarChart"
 import { ISSUE_RAG_DATA } from "./carbonMockData/toolData/_data";
 
-//import { BSCardGrid } from "traec-react/utils/bootstrap";
-//import CategoryIcon from "./legacyDashboard/icons/category";
+import { BSCardGrid } from "traec-react/utils/bootstrap";
+import CategoryIcon from "./legacy/icons/category";
+
+//import Traec from "traec"
+
 
 function IssueIcons() {
 
@@ -70,6 +75,7 @@ function IssueIcons() {
   )
 
 }
+*/
 
 function MockDashboard() {
 
@@ -87,7 +93,7 @@ function MockDashboard() {
   return (
     <>
       {/*<CumHorizBarPop />*/}
-      <HorizontalBarChart />
+      {/*<HorizontalBarChart />*/}
     </>
   )
 }
