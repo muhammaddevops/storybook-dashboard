@@ -5,9 +5,9 @@
   "main": "src/App. js",
   "private": false,
   "dependencies": {
-    "@carbon/charts-react": "^1.5.0",
     "bootstrap": "4.6",
     "chart.js": "^3.8.2",
+    "chroma-js": "^2.4.2",
     "d3": "^7.6.1",
     "faker": "^6.6.6",
     "node-sass": "^7.0.1",
@@ -15,9 +15,10 @@
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^17.0.2",
     "react-octicon": "^3.0.1",
+    "react-refresh": "0.11.0",
     "react-scripts": "5.0.1",
-    "traec": "^1.1.208",
-    "traec-react": "^0.1.255",
+    "traec": "^1.1.210",
+    "traec-react": "^0.1.257",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -57,9 +58,7 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^12.1.4",
-    "@testing-library/user-event": "^13.5.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",
@@ -70,8 +69,12 @@
     "@storybook/preset-create-react-app": "^4.1.2",
     "@storybook/react": "^6.5.9",
     "@storybook/testing-library": "^0.0.13",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
     "babel-plugin-named-exports-order": "^0.0.2",
     "prop-types": "^15.8.1",
+    "react-refresh": "^0.11.0",
     "webpack": "^5.73.0"
   }
 }

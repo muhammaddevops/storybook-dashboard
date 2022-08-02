@@ -1,23 +1,25 @@
 import React, {useState, useEffect} from "react"
 import TipsSpinner from "./spinners/tipsSpinner";
 
-/*
-import StackedBarPopulated from "./chartComponents/StackedBarChart";
-import HorizontalStackedBarPopulated from "./chartComponents/horizontalStackedBar";
+
+//import StackedBarPopulated from "./chartComponents/StackedBarChart";
+//import HorizontalStackedBarPopulated from "./chartComponents/horizontalStackedBar";
 //import CumHorizBarPop from "./carbonMockData/toolData/cumBar";
-//import HorizontalBarChart from "./carbonMockData/toolData/horizontalBarChart"
+import HorizontalBarChart from "./carbonMockData/toolData/horizontalBarChart"
 import { ISSUE_RAG_DATA } from "./carbonMockData/toolData/_data";
 
 import { BSCardGrid } from "traec-react/utils/bootstrap";
 import CategoryIcon from "./legacy/icons/category";
 
-//import Traec from "traec"
+import Traec from "traec"
 
 
 function IssueIcons() {
 
   let [selected, setSelected] = useState([])
   let [maxIconHeight, setMaxIconHeight] = useState(0)
+
+  let hostId = "sustool"
 
   let iconColors = Traec.Im.fromJS([
     {
@@ -38,6 +40,10 @@ function IssueIcons() {
 
   let iconHeightHandler = () => {
     console.log("iconHeightHandler not implemented")
+  }
+
+  let selectIssue = () => {
+    console.log("selectIssue not implemented")
   }
 
   const icons = iconColors.map((iconData, i) => {
@@ -75,15 +81,15 @@ function IssueIcons() {
   )
 
 }
-*/
+
 
 function MockDashboard() {
 
   let [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    console.log("Dashboard will take 5 seconds to load")
-    setTimeout(() => {setLoading(false)}, 5000)
+    console.log("Dashboard will take 3 seconds to load")
+    setTimeout(() => {setLoading(false)}, 3000)
   }, [])
 
   if (loading) {
@@ -93,7 +99,7 @@ function MockDashboard() {
   return (
     <>
       {/*<CumHorizBarPop />*/}
-      {/*<HorizontalBarChart />*/}
+      <HorizontalBarChart />
     </>
   )
 }

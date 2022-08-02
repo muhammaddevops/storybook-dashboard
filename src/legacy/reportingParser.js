@@ -1,8 +1,7 @@
 import Im from "traec/immutable";
 import Moment from "moment";
-import Crypto from "crypto";
 import chroma from "chroma-js";
-import { getColor } from "AppSrc/dashboards/utils";
+import { getColor } from "./utils";
 
 const getIndicatorValues = (data, indicators, staticTargets = null, cum_period = "total") => {
   /* Data should be already sorted before passing here */
@@ -111,7 +110,7 @@ export const pushIndicatorThresholds = (indicators, indicatorCategory, indicator
 export const generateHashColor = name => {
   let colorNumber =
     "0x" +
-    Crypto.createHash("sha1")
+    crypto.createHash("sha1")
       .update(name)
       .digest("hex")
       .substring(0, 6);

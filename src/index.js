@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -12,15 +12,15 @@ import reportWebVitals from "./reportWebVitals";
 // );
 
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
 
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
+//const rootElement = document.getElementById("root");
+//const root = createRoot(rootElement);
 
-root.render(
+ReactDOM.render(
   <StrictMode>
     <App />
-  </StrictMode>
+  </StrictMode>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
