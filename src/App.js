@@ -98,7 +98,7 @@ function MockDashboard() {
 
   return (
     <>
-      {/*<CumHorizBarPop />*/}
+      <IssueIcons />
       <HorizontalBarChart />
     </>
   )
