@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import Traec from "traec";
 import { Tooltip } from "react-tippy";
 import { BSCard } from "traec-react/utils/bootstrap";
-import { DateString } from "AppSrc/project/components";
-import { getColor } from "AppSrc/dashboards/icons/utils";
+import { DateString } from "../components";
+import { getColor } from "../icons/utils";
 import { charToColor } from "./utils";
 import Octicon from "react-octicon";
 import { dataToState, getFetchBody } from "../sustainabilityPanel/helpers";
@@ -18,7 +18,7 @@ const ReportProjectCell = props => {
 
   // Do any pending redirection
   if (redirectTo) {
-    return <Redirect to={redirectTo} />;
+    return <Navigate to={redirectTo} />;
   }
 
   // Render the cell

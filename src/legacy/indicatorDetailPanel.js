@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Traec from "traec";
 
-import { DetailedIconChart } from "AppSrc/charts";
+import { DetailedIconChart } from "./charts";
 import { BSCard } from "traec-react/utils/bootstrap";
 import { generateIndicatorChart, generateIndicatorTargetMap } from "./utils";
 import { CumulativeButton } from "./sustainabilityPanel/utils";
@@ -11,11 +11,11 @@ import { ErrorBoundary } from "traec-react/errors/handleError";
 import { sortAndCropData, dataToState, getFetchBody, getDispatchFetches } from "./sustainabilityPanel/helpers";
 import { Spinner } from "traec-react/utils/entities";
 
-import ProjectReportCommitResults from "AppSrc/dashboards/lists/projectCommits";
-import ProjectReportInputValues from "AppSrc/dashboards/lists/projectInputValues";
+import ProjectReportCommitResults from "./lists/projectCommits";
+import ProjectReportInputValues from "./lists/projectInputValues";
 
-import CompanyReportProjectResults from "AppSrc/dashboards/lists/companyProjects";
-import CompanyReportIndicatorValues from "AppSrc/dashboards/lists/companyInputValues";
+import CompanyReportProjectResults from "./lists/companyProjects";
+import CompanyReportIndicatorValues from "./lists/companyInputValues";
 import { Benchmarks } from "./targetSet";
 
 const getIndicator = indicators => {

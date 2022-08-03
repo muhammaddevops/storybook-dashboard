@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import Traec from "traec";
 import { Tooltip } from "react-tippy";
 import { BSCard } from "traec-react/utils/bootstrap";
-import { DateString } from "AppSrc/project/components";
+import { DateString } from "../components";
 import { BSBtnDropdown } from "traec-react/utils/bootstrap";
 import Octicon from "react-octicon";
 import { Spinner } from "traec-react/utils/entities";
 
-import { dataToState, getFetchBody } from "AppSrc/dashboards/sustainabilityPanel/helpers";
+import { dataToState, getFetchBody } from "../sustainabilityPanel/helpers";
 
 import { getMetricIdsFromIndicator, TableCell } from "./projectInputValues";
 import { ErrorBoundary } from "traec-react/errors";
@@ -253,10 +253,6 @@ const getPreDispatchHook = props => {
 function CompanyReportIndicatorValues(props) {
   let { indicator, indicatorId, query_string } = props;
 
-  if (!indicator) {
-    return null;
-  }
-
   useEffect(() => {
     Traec.fetchRequiredFor({
       props,
@@ -266,6 +262,10 @@ function CompanyReportIndicatorValues(props) {
       ]
     });
   }, [indicatorId, query_string]);
+
+  if (!indicator) {
+    return null;
+  }
 
   let { title, helpText } = getTitleAndHelpText(indicator);
 

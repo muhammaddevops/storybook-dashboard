@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import Traec from "traec";
 
 import { BSCard } from "traec-react/utils/bootstrap";
-import IndicatorIcon from "AppSrc/dashboards/icons/indicator";
-import { metricName } from "AppSrc/dashboards/icons/utils";
+import IndicatorIcon from "./icons/indicator";
+import { metricName } from "./icons/utils";
 
 import {
   sortAndCropData,
@@ -15,10 +15,10 @@ import {
 } from "./sustainabilityPanel/helpers";
 import { ErrorBoundary } from "traec-react/errors/handleError";
 
-import IndicatorDetailPanel from "AppSrc/dashboards/indicatorDetailPanel";
+import IndicatorDetailPanel from "./indicatorDetailPanel";
 import { Spinner } from "traec-react/utils/entities";
 
-import CompanyReportProjectResults from "AppSrc/dashboards/lists/companyProjects";
+import CompanyReportProjectResults from "./lists/companyProjects";
 
 function IndicatorDetailWrapper(props) {
   if (props.hide) {
