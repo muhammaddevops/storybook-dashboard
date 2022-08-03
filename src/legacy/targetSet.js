@@ -117,7 +117,7 @@ export class MetricTargetSet extends React.Component {
         }
       },
       postSuccessHook: () => {
-        location.reload();
+        window.location.reload();
       }
     });
     // Dispatch this to the state

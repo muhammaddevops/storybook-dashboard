@@ -12,8 +12,34 @@ import { ErrorBoundary } from "traec-react/errors/handleError";
 import { BSCardGrid, BSCard } from "traec-react/utils/bootstrap";
 import CategoryIcon from "./legacy/icons/category";
 import IndicatorIcon from "./legacy/icons/indicator";
+import { CumulativeButton } from "./legacy/sustainabilityPanel/utils";
+import { DetailedIconChart } from "./legacy/charts";
+
+import { issueIconData, indicatorIconData, indicatorChartData } from "./data";
 
 import Traec from "traec"
+
+
+function IndicatorBarChart() {
+  let [cumulation, setCumulation] = useState("current")
+
+  return (
+  <div className="row">
+    <ErrorBoundary>
+      <BSCard
+        widthOffset="col-sm-12"
+        title={"Selected indicator chart"}
+        button={<CumulativeButton cumulation={cumulation} setCumulation={setCumulation} />}
+        body={
+          <React.Fragment>
+            <DetailedIconChart data={Traec.Im.fromJS(indicatorChartData)} />
+          </React.Fragment>
+        }
+      />
+    </ErrorBoundary>
+  </div>
+  )
+}
 
 
 function IndicatorIcons({category}) {
@@ -24,21 +50,7 @@ function IndicatorIcons({category}) {
 
   let hostId = "sustool"
   let iconWidth = "col-sm-6 col-md-3 col-l-2 col-xl-2";
-
-  let iconColors = Traec.Im.fromJS([
-    {
-      name: "% of people aged 20-25",
-      color: "#ff0000",
-      _key: "i01",
-
-    },
-    {
-      name: "% of people aged 25-30",
-      color: "#ff0000",
-      _key: "i01",
-
-    }
-  ])
+  let iconColors = Traec.Im.fromJS(indicatorIconData)
 
   let iconHeightHandler = () => {
     console.log("iconHeightHandler not implemented")
@@ -59,7 +71,7 @@ function IndicatorIcons({category}) {
         key={i}
         hostId={hostId}
         widthOffset={iconWidth}
-        iconCategory={category}
+        iconCategory={category || "Employees"}
         iconName={iconData.get("name")}
         iconColor={iconData.get("color")}
         iconHeightHandler={iconHeightHandler}
@@ -94,21 +106,7 @@ function IssueIcons() {
 
   let hostId = "sustool"
   let iconWidth = "col-sm-6 col-md-3 col-l-2 col-xl-2";
-
-  let iconColors = Traec.Im.fromJS([
-    {
-      _key: "Waste",
-      category_id: "abc123",
-      hostId: "sustool",
-      color: "#ff0000"
-    },
-    {
-      _key: "Material",
-      category_id: "abc123",
-      hostId: "sustool",
-      color: "#0000ff"
-    }
-  ])
+  let iconColors = Traec.Im.fromJS(issueIconData)
 
   let iconHeightHandler = () => {
     console.log("iconHeightHandler not implemented")
@@ -182,7 +180,11 @@ function MockDashboard() {
       <ErrorBoundary>
         <HorizontalBarChart />
       </ErrorBoundary>
-      
+
+      <ErrorBoundary>
+        <IndicatorBarChart />
+      </ErrorBoundary>
+
     </ErrorBoundary>
   )
 }

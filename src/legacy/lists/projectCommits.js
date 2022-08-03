@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import Traec from "traec";
 import { BSCard } from "traec-react/utils/bootstrap";
-import { DateString } from "AppSrc/project/components";
-import { getColor } from "AppSrc/dashboards/icons/utils";
+import { DateString } from "../components";
+import { getColor } from "../icons/utils";
 import { charToColor } from "./utils";
 import { Spinner } from "traec-react/utils/entities";
 import { dataToState, getFetchBody } from "../sustainabilityPanel/helpers";
@@ -17,7 +17,7 @@ function ReportCommitCell(props) {
   // Do any pending redirection
   let redirectUrl = `/project/${projectId?.substring(0, 8)}/wpack/${refId?.substring(0, 8)}/`;
   if (redirectTo) {
-    return <Redirect to={redirectTo} />;
+    return <Navigate to={redirectTo} />;
   }
 
   // Get the rag character and color of this cell

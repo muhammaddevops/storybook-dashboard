@@ -1,5 +1,5 @@
 import React from "react";
-import { DetailedIconChart } from "AppSrc/charts";
+import { DetailedIconChart } from "./charts";
 import { BSCard } from "traec-react/utils/bootstrap";
 import Im from "traec/immutable";
 

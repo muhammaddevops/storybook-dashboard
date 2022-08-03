@@ -17,6 +17,7 @@
     "react-octicon": "^3.0.1",
     "react-refresh": "0.11.0",
     "react-scripts": "5.0.1",
+    "react-tippy": "^1.4.0",
     "traec": "^1.1.210",
     "traec-react": "^0.1.257",
     "web-vitals": "^2.1.4"

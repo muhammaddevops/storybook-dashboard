@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import Traec from "traec";
 import { Tooltip } from "react-tippy";
 import { BSCard } from "traec-react/utils/bootstrap";
-import { DateString } from "AppSrc/project/components";
+import { DateString } from "../components";
 import { BSBtnDropdown } from "traec-react/utils/bootstrap";
 import Octicon from "react-octicon";
 import { Spinner } from "traec-react/utils/entities";
 import { dataToState, getFetchBody } from "../sustainabilityPanel/helpers";
 import { TitleTooltip, getRefsFromReportingPeriods } from "./utils";
 import { select } from "d3-selection";
-import { listsToDicts } from "AppSrc/dashboards/sustainabilityPanel/helpers";
+import { listsToDicts } from "../sustainabilityPanel/helpers";
 
 const cellStyles = {
   backgroundColor: null,
@@ -230,10 +230,6 @@ function TableBody(props) {
 function ProjectReportIndicatorValues(props) {
   let { indicator, indicatorId, cumulation, query_string } = props;
 
-  if (!indicatorId || !indicator) {
-    return null;
-  }
-
   //let [refs, setRefs] = useState(Traec.Im.Set())
   //let refs = getRefsFromReportingPeriods()
 
@@ -243,6 +239,10 @@ function ProjectReportIndicatorValues(props) {
       requiredFetches: [new Traec.Fetch("tracker_dispatch", "post", {}, { preDispatchHook: getPreDispatchHook(props) })]
     });
   }, [indicatorId, query_string]);
+
+  if (!indicatorId || !indicator) {
+    return null;
+  }
 
   let _text = cumulation == "total" ? "cumulative" : "per period";
   let title = `Reported metric values (${_text}) for indicator: ${indicator.get("name")}`;
