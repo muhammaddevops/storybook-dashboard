@@ -1,3 +1,4 @@
+import React from "react";
 import "./tipsSpinner.css";
 import { sustainabilityTips } from "./sustainabilityTips";
 

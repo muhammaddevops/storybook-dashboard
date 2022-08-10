@@ -37,7 +37,7 @@ if (false && process.env.NODE_ENV != "production") {
 module.exports = {
   entry: Object.assign(
     {
-      app: "./src/App.js",
+      app: "./src/index.js",
       //company: "./src/company/index.js",
       //project: "./src/project/index.js"
     },
