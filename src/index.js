@@ -28,17 +28,7 @@ ReactDOM.render(
     <StrictMode>
       <Provider store={store}>
         <BrowserRouter>
-          <ErrorBoundary title="Error loading NavBar">
-            <NavBar
-              brand={(<span style={{color: "white"}}>Dashboard beta</span>)}
-              include_myprofile={false}
-              //location={useLocation()}
-              //createText={""}
-              //azureConfig={getAzureConfig()}
-            />
-          </ErrorBoundary>
-
-          <ErrorBoundary title="Error loading body">
+          <ErrorBoundary>
             <App />
           </ErrorBoundary>
         </BrowserRouter>

@@ -8,6 +8,7 @@ import TipsSpinner from "./spinners/tipsSpinner";
 import HorizontalBarChart from "./carbonMockData/toolData/horizontalBarChart"
 import { ISSUE_RAG_DATA } from "./carbonMockData/toolData/_data";
 import { ErrorBoundary } from "traec-react/errors/handleError";
+import NavBar from "traec-react/navBar";
 
 import { BSCardGrid, BSCard } from "traec-react/utils/bootstrap";
 import CategoryIcon from "./legacy/icons/category";
@@ -16,8 +17,11 @@ import { CumulativeButton } from "./legacy/sustainabilityPanel/utils";
 import { DetailedIconChart } from "./legacy/charts";
 
 import { issueIconData, indicatorIconData, indicatorChartData } from "./data";
+import DashboardSidebar from "./sidebar"
 
 import Traec from "traec"
+
+import BootstrapSplitPane from "traec-react/utils/bootstrap/splitbs";
 
 
 function IndicatorBarChart() {
@@ -153,9 +157,13 @@ function IssueIcons() {
 }
 
 
-function MockDashboard() {
+function MockDashboard(props) {
+  let {companyId} = props
 
   let [loading, setLoading] = useState(true)
+  let [showSideBar, setShowSideBar] = useState(true)
+
+  let projectId = "11ebbb32-5d60-4c32-a90a-b773aa40f905"
 
   useEffect(() => {
     console.log("Dashboard will take 3 seconds to load")
@@ -169,29 +177,79 @@ function MockDashboard() {
   return (
     <ErrorBoundary>
 
-      <ErrorBoundary>
-        <IssueIcons />
-      </ErrorBoundary>
-      
-      <ErrorBoundary>
-        <IndicatorIcons />
-      </ErrorBoundary>
+      <BootstrapSplitPane
+        localStorageKey={`dashboard-sidebar-grid-split-${projectId}`}
+        allowZero={true}
+        pane1ClassName={"page-sidebar vh100-navbar"}
+        onCollapseHook={() => { setShowSideBar(false) }}
+        onExpandHook={() => { setShowSideBar(true) }}
+        pane1Style={{
+          borderRight: "1px solid grey"
+        }}
+      >
+        <div>
+          <ErrorBoundary>
+            <DashboardSidebar {...props} />
+          </ErrorBoundary>
+        </div>
 
-      <ErrorBoundary>
-        <HorizontalBarChart />
-      </ErrorBoundary>
+        <div>
+          <ErrorBoundary>
 
-      <ErrorBoundary>
-        <IndicatorBarChart />
-      </ErrorBoundary>
+            <ErrorBoundary>
+              <IssueIcons />
+            </ErrorBoundary>
+            
+            <ErrorBoundary>
+              <IndicatorIcons />
+            </ErrorBoundary>
+
+            <ErrorBoundary>
+              <HorizontalBarChart />
+            </ErrorBoundary>
+
+            <ErrorBoundary>
+              <IndicatorBarChart />
+            </ErrorBoundary>
+
+          </ErrorBoundary>
+        </div>
+      </BootstrapSplitPane>
+
+
 
     </ErrorBoundary>
   )
 }
 
 
+function CompanyIDInput({id, setId}) {
+  return (    
+    <form className="form-inline my-2 my-lg-0">
+      <input className="form-control form-control-sm mr-sm-2" type="search" placeholder="Company ID" aria-label="CompanyId" value={id} onChange={(e) => setId(e.target.value)} />
+      <button className="btn btn-sm btn-outline-secondary my-2 my-sm-0" type="submit">Load</button>
+    </form>
+  )
+}
+
+
 function App() {
-  return (<MockDashboard />)
+
+  let [id, setId] = useState("80ba2bd1")
+
+  return (
+    <ErrorBoundary>
+      <NavBar
+        brand={(<span style={{color: "white"}}>Dashboard beta</span>)}
+        preUserItems={(<CompanyIDInput id={id} setId={setId}/>)}
+        include_myprofile={false}
+        //location={useLocation()}
+        //createText={""}
+        //azureConfig={getAzureConfig()}
+      />
+      <MockDashboard companyId={id}/>
+    </ErrorBoundary>
+  )
 }
 
 export default App
