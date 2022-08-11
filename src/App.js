@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react";
 import TipsSpinner from "./spinners/tipsSpinner";
-
 
 //import StackedBarPopulated from "./chartComponents/StackedBarChart";
 //import HorizontalStackedBarPopulated from "./chartComponents/horizontalStackedBar";
 //import CumHorizBarPop from "./carbonMockData/toolData/cumBar";
-import HorizontalBarChart from "./carbonMockData/toolData/horizontalBarChart"
+import HorizontalBarChart from "./carbonMockData/toolData/horizontalBarChart";
 import { ISSUE_RAG_DATA } from "./carbonMockData/toolData/_data";
 import { ErrorBoundary } from "traec-react/errors/handleError";
 
@@ -17,55 +16,59 @@ import { DetailedIconChart } from "./legacy/charts";
 
 import { issueIconData, indicatorIconData, indicatorChartData } from "./data";
 
-import Traec from "traec"
-
+import Traec from "traec";
 
 function IndicatorBarChart() {
-  let [cumulation, setCumulation] = useState("current")
+  let [cumulation, setCumulation] = useState("current");
 
   return (
-  <div className="row">
-    <ErrorBoundary>
-      <BSCard
-        widthOffset="col-sm-12"
-        title={"Selected indicator chart"}
-        button={<CumulativeButton cumulation={cumulation} setCumulation={setCumulation} />}
-        body={
-          <React.Fragment>
-            <DetailedIconChart data={Traec.Im.fromJS(indicatorChartData)} />
-          </React.Fragment>
-        }
-      />
-    </ErrorBoundary>
-  </div>
-  )
+    <div className="row">
+      <ErrorBoundary>
+        <BSCard
+          widthOffset="col-sm-12"
+          title={"Selected indicator chart"}
+          button={
+            <CumulativeButton
+              cumulation={cumulation}
+              setCumulation={setCumulation}
+            />
+          }
+          body={
+            <React.Fragment>
+              <DetailedIconChart data={Traec.Im.fromJS(indicatorChartData)} />
+            </React.Fragment>
+          }
+        />
+      </ErrorBoundary>
+    </div>
+  );
 }
 
+function IndicatorIcons({ category }) {
+  let [selected, setSelected] = useState(Traec.Im.Set());
+  let [maxIconHeight, setMaxIconHeight] = useState(0);
+  let [order, setOrder] = useState(Traec.Im.Map());
 
-function IndicatorIcons({category}) {
-
-  let [selected, setSelected] = useState(Traec.Im.Set())
-  let [maxIconHeight, setMaxIconHeight] = useState(0)
-  let [order, setOrder] = useState(Traec.Im.Map())
-
-  let hostId = "sustool"
+  let hostId = "sustool";
   let iconWidth = "col-sm-6 col-md-3 col-l-2 col-xl-2";
-  let iconColors = Traec.Im.fromJS(indicatorIconData)
+  let iconColors = Traec.Im.fromJS(indicatorIconData);
 
   let iconHeightHandler = () => {
-    console.log("iconHeightHandler not implemented")
-  }
+    console.log("iconHeightHandler not implemented");
+  };
 
   let selectIndicator = () => {
-    console.log("selectIndicator not implemented")
-  }
+    console.log("selectIndicator not implemented");
+  };
 
   let setSelectedIndicator = () => {
-    console.log("setSelectedIndicator not implemented")
-  }
+    console.log("setSelectedIndicator not implemented");
+  };
 
   let icons = iconColors
-    .sortBy(iconData => (order ? order.get(iconData.get("name"), 1e6) : iconData.get("name")))
+    .sortBy((iconData) =>
+      order ? order.get(iconData.get("name"), 1e6) : iconData.get("name")
+    )
     .map((iconData, i) => (
       <IndicatorIcon
         key={i}
@@ -82,7 +85,9 @@ function IndicatorIcons({category}) {
         setOrder={setOrder}
         order={order}
         index={i}
-        onClickHandler={() => selectIndicator(iconData, setSelected, selected, setSelectedIndicator)}
+        onClickHandler={() =>
+          selectIndicator(iconData, setSelected, selected, setSelectedIndicator)
+        }
       />
     ));
 
@@ -94,27 +99,24 @@ function IndicatorIcons({category}) {
         body={<div className="row">{icons}</div>}
       />
     </div>
-  )
-
+  );
 }
 
-
 function IssueIcons() {
+  let [selected, setSelected] = useState([]);
+  let [maxIconHeight, setMaxIconHeight] = useState(0);
 
-  let [selected, setSelected] = useState([])
-  let [maxIconHeight, setMaxIconHeight] = useState(0)
-
-  let hostId = "sustool"
+  let hostId = "sustool";
   let iconWidth = "col-sm-6 col-md-3 col-l-2 col-xl-2";
-  let iconColors = Traec.Im.fromJS(issueIconData)
+  let iconColors = Traec.Im.fromJS(issueIconData);
 
   let iconHeightHandler = () => {
-    console.log("iconHeightHandler not implemented")
-  }
+    console.log("iconHeightHandler not implemented");
+  };
 
   let selectIssue = () => {
-    console.log("selectIssue not implemented")
-  }
+    console.log("selectIssue not implemented");
+  };
 
   const icons = iconColors.map((iconData, i) => {
     let fullName = iconData.get("_key");
@@ -136,8 +138,8 @@ function IssueIcons() {
         selected={selected?.id === _id}
         onClickHandler={() => selectIssue(fullName, name, _id)}
       />
-    )
-  })
+    );
+  });
 
   return (
     <div className="row">
@@ -148,31 +150,30 @@ function IssueIcons() {
         //button={(<CumulativeButton cumulation={cumulation} setCumulation={setCumulation} />)}
       />
     </div>
-  )
-
+  );
 }
 
-
 function MockDashboard() {
-
-  let [loading, setLoading] = useState(true)
+  let [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("Dashboard will take 3 seconds to load")
-    setTimeout(() => {setLoading(false)}, 3000)
-  }, [])
+    console.log("Dashboard will take 3 seconds to load");
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   if (loading) {
-    return (<TipsSpinner />)
+    return <TipsSpinner />;
   }
 
   return (
     <ErrorBoundary>
-
+      <TipsSpinner />
       <ErrorBoundary>
         <IssueIcons />
       </ErrorBoundary>
-      
+
       <ErrorBoundary>
         <IndicatorIcons />
       </ErrorBoundary>
@@ -184,14 +185,12 @@ function MockDashboard() {
       <ErrorBoundary>
         <IndicatorBarChart />
       </ErrorBoundary>
-
     </ErrorBoundary>
-  )
+  );
 }
-
 
 function App() {
-  return (<MockDashboard />)
+  return <MockDashboard />;
 }
 
-export default App
+export default App;
