@@ -191,7 +191,6 @@ function MockDashboard() {
 
 
 function App() {
-  console.log("AAAAAAAAAAAAAAAAA Here is the APP")
   return (<MockDashboard />)
 }
 
