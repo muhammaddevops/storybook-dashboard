@@ -160,6 +160,7 @@ function IssueIcons() {
 function MockDashboard(props) {
   let {companyId} = props
 
+  let [selected, setSelected] = useState(Traec.Im.Set())
   let [loading, setLoading] = useState(true)
   let [showSideBar, setShowSideBar] = useState(true)
 
@@ -189,7 +190,11 @@ function MockDashboard(props) {
       >
         <div>
           <ErrorBoundary>
-            <DashboardSidebar {...props} />
+            <DashboardSidebar 
+              {...props} 
+              selected={selected}
+              setSelected={setSelected}
+            />
           </ErrorBoundary>
         </div>
 

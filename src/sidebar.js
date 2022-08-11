@@ -79,16 +79,20 @@ const ragToColor = (rag) => {
 }
 
 function IndicatorListItem(props) {
-    let [selected, setSelected] = useState(false)
-    let {indicator} = props
+    //let [selected, setSelected] = useState(false)
+    let {selected, setSelected, indicator} = props
+    let indicator_id = indicator.get("_id")
+    let isSelected = selected.has(indicator_id)
     return (
         <li 
             style={{
                 color: ragToColor(indicator.get("rag")),
                 cursor: "pointer",
-                backgroundColor: selected ? "#aaa" : null
+                backgroundColor: isSelected ? "#aaa" : null
             }}
-            onClick={e => setSelected(!selected)}
+            onClick={e => setSelected(
+                isSelected ? selected.delete(indicator_id) : selected.add(indicator_id)
+            )}
         >
             {indicator.get("name")}
         </li>
@@ -128,7 +132,13 @@ function IssueIndicators(props) {
         .toList()
         .filter(i => i.get("category_id") == category_id)
         .sortBy(i => i.get("name"))
-        .map((indicator, i) => (<IndicatorListItem key={i} {...props} indicator={indicator} />))
+        .map((indicator, i) => (
+            <IndicatorListItem 
+                key={i} 
+                {...props} 
+                indicator={indicator} 
+            />
+        ))
 
     return (
         <ul className="ml-1 pl-1">
@@ -199,7 +209,13 @@ export default function DashboardSidebar(props) {
         .map((value, key) => value.set("_key", key))
         .toList()
         .sortBy(i => i.get("_key"))
-        .map((issue, i) => (<IssueListItem key={i} {...props} issue={issue}/>))
+        .map((issue, i) => (
+            <IssueListItem 
+                key={i} 
+                {...props} 
+                issue={issue}
+            />)
+        )
 
     return (
         <ul className="ml-1 pl-1">
