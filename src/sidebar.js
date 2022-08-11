@@ -34,7 +34,7 @@ export const getFetchBody = (props, part) => {
         part: part,
         //from_date: formatDate(fromDate),
         //to_date: formatDate(toDate, 1),
-        //category_id: _categoryId,
+        category_id: _categoryId,
         //indicator_id: indicatorId || indicator_id,
         cumulation: cumulation || "total",
         filters: _filters,
@@ -78,6 +78,23 @@ const ragToColor = (rag) => {
     return colorMap[rag] || "grey"
 }
 
+function IndicatorListItem(props) {
+    let [selected, setSelected] = useState(false)
+    let {indicator} = props
+    return (
+        <li 
+            style={{
+                color: ragToColor(indicator.get("rag")),
+                cursor: "pointer",
+                backgroundColor: selected ? "#aaa" : null
+            }}
+            onClick={e => setSelected(!selected)}
+        >
+            {indicator.get("name")}
+        </li>
+    )
+}
+
 function IssueIndicators(props) {
     let { companyId, category_id } = props
     let [state, setState] = useState({})
@@ -104,24 +121,14 @@ function IssueIndicators(props) {
         }, [companyId]);
 
     if (!rags) { return null }
-    console.log("RENDERING INDICATOR_RAG_DATA", rags?.toJS())
+    //console.log("RENDERING INDICATOR_RAG_DATA", rags?.toJS())
 
     let items = rags
         .map((value, id) => value.set("_id", id))
         .toList()
         .filter(i => i.get("category_id") == category_id)
-        .map((indicator, i) => (
-            <li 
-                key={i} 
-                style={{
-                    color: ragToColor(indicator.get("rag")),
-                    cursor: "pointer"
-                }}
-                onClick={e => console.log("Selected indicator", indicator.get("name"))}
-            >
-                {indicator.get("name")}
-            </li>
-        ))
+        .sortBy(i => i.get("name"))
+        .map((indicator, i) => (<IndicatorListItem key={i} {...props} indicator={indicator} />))
 
     return (
         <ul className="ml-1 pl-1">
@@ -131,8 +138,15 @@ function IssueIndicators(props) {
 }
 
 function IssueListItem(props) {
-    let { issue } = props
-    let [showIndicators, setShowIndicators] = useState(false)
+
+    let { companyId, issue } = props
+    let category_id = issue.get("category_id")
+
+    let expandedStateKey = `expanded-${companyId}-${category_id}`
+    let [showIndicators, setShowIndicators] = useState(
+        localStorage.getItem(expandedStateKey, "false") === "true"
+    )
+
 
     return (
         <ErrorBoundary>
@@ -141,11 +155,14 @@ function IssueListItem(props) {
                     color: ragToColor(issue.get("rag")),
                     cursor: "pointer"
                 }}
-                onClick={e => setShowIndicators(true)}
+                onClick={e => {
+                    localStorage.setItem(expandedStateKey, !showIndicators)
+                    setShowIndicators(!showIndicators)
+                }}
             >
                 {issue.get("_key")}
             </li>
-            {showIndicators ? <IssueIndicators {...props} category_id={issue.get("category_id")}/> : null}
+            {showIndicators ? (<IssueIndicators {...props} category_id={category_id}/>) : null}
         </ErrorBoundary>
     )
 }
@@ -176,11 +193,12 @@ export default function DashboardSidebar(props) {
         }, [companyId]);
 
     if (!rags) { return null }
-    console.log("RENDERING Sidebar with  ISSUE_RAG_DATA", rags?.toJS())
+    //console.log("RENDERING Sidebar with  ISSUE_RAG_DATA", rags?.toJS())
 
     let items = rags
         .map((value, key) => value.set("_key", key))
         .toList()
+        .sortBy(i => i.get("_key"))
         .map((issue, i) => (<IssueListItem key={i} {...props} issue={issue}/>))
 
     return (

@@ -196,6 +196,7 @@ function MockDashboard(props) {
         <div>
           <ErrorBoundary>
 
+            {/*
             <ErrorBoundary>
               <IssueIcons />
             </ErrorBoundary>
@@ -203,6 +204,7 @@ function MockDashboard(props) {
             <ErrorBoundary>
               <IndicatorIcons />
             </ErrorBoundary>
+            */}
 
             <ErrorBoundary>
               <HorizontalBarChart />
