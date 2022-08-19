@@ -74,7 +74,7 @@ function ChartTopBar() {
   return (
     <div>
       <h5>
-        Chart name
+        Cumulative Data
         <span className="float-right pr-1">
           <TopbarIcon name="file-media" />
           <TopbarIcon name="cloud-download" />
@@ -90,9 +90,11 @@ export default function HorizontalBarChart() {
 
   return (
     <React.Fragment>
-      <ChartTopBar />
-      <div style={{ height: `${height}px` }}>
-        <Bar options={options} data={data} height={height} />
+      <div className="card shadow p-3 mb-5 bg-white rounded text-center">
+        <ChartTopBar />
+        <div style={{ height: `${height}px` }}>
+          <Bar options={options} data={data} height={height} />
+        </div>
       </div>
     </React.Fragment>
   );

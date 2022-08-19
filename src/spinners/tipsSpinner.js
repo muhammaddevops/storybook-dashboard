@@ -11,7 +11,7 @@ function TipsSpinner() {
   let tipAtRuntime = randomTip;
 
   return (
-    <div className="tip-spinner ">
+    <div className="tip-spinner col">
       <div className="spinner ">
         <div className="spinner-sector spinner-sector-top"></div>
         <div className="spinner-sector spinner-sector-left"></div>

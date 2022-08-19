@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react";
 import TipsSpinner from "./spinners/tipsSpinner";
-
 
 //import StackedBarPopulated from "./chartComponents/StackedBarChart";
 //import HorizontalStackedBarPopulated from "./chartComponents/horizontalStackedBar";
 //import CumHorizBarPop from "./carbonMockData/toolData/cumBar";
-import HorizontalBarChart from "./carbonMockData/toolData/horizontalBarChart"
+import HorizontalBarChart from "./carbonMockData/toolData/horizontalBarChart";
 import { ISSUE_RAG_DATA } from "./carbonMockData/toolData/_data";
 import { ErrorBoundary } from "traec-react/errors/handleError";
 import NavBar from "traec-react/navBar";
@@ -17,59 +16,73 @@ import { CumulativeButton } from "./legacy/sustainabilityPanel/utils";
 import { DetailedIconChart } from "./legacy/charts";
 
 import { issueIconData, indicatorIconData, indicatorChartData } from "./data";
-import DashboardSidebar from "./sidebar"
+import DashboardSidebar from "./sidebar";
 
-import Traec from "traec"
+import Traec from "traec";
 
 import BootstrapSplitPane from "traec-react/utils/bootstrap/splitbs";
-
+import GuageChart from "./chartComponents/guageChart";
 
 function IndicatorBarChart() {
-  let [cumulation, setCumulation] = useState("current")
+  let [cumulation, setCumulation] = useState("current");
 
   return (
-  <div className="row">
-    <ErrorBoundary>
-      <BSCard
-        widthOffset="col-sm-12"
-        title={"Selected indicator chart"}
-        button={<CumulativeButton cumulation={cumulation} setCumulation={setCumulation} />}
-        body={
-          <React.Fragment>
-            <DetailedIconChart data={Traec.Im.fromJS(indicatorChartData)} />
-          </React.Fragment>
-        }
-      />
-    </ErrorBoundary>
-  </div>
-  )
+    <>
+      <div className="card shadow p-3 mb-5 bg-white rounded text-center">
+        <CumulativeButton
+          cumulation={cumulation}
+          setCumulation={setCumulation}
+        />
+        <DetailedIconChart data={Traec.Im.fromJS(indicatorChartData)} />
+      </div>
+      {/* <div className="row">
+        <ErrorBoundary>
+          <BSCard
+            widthOffset="col-sm-12"
+            title={"Selected indicator chart"}
+            button={
+              <CumulativeButton
+                cumulation={cumulation}
+                setCumulation={setCumulation}
+              />
+            }
+            body={
+              <React.Fragment>
+                <DetailedIconChart data={Traec.Im.fromJS(indicatorChartData)} />
+              </React.Fragment>
+            }
+          />
+        </ErrorBoundary>
+      </div> */}
+    </>
+  );
 }
 
+function IndicatorIcons({ category }) {
+  let [selected, setSelected] = useState(Traec.Im.Set());
+  let [maxIconHeight, setMaxIconHeight] = useState(0);
+  let [order, setOrder] = useState(Traec.Im.Map());
 
-function IndicatorIcons({category}) {
-
-  let [selected, setSelected] = useState(Traec.Im.Set())
-  let [maxIconHeight, setMaxIconHeight] = useState(0)
-  let [order, setOrder] = useState(Traec.Im.Map())
-
-  let hostId = "sustool"
+  let hostId = "sustool";
   let iconWidth = "col-sm-6 col-md-3 col-l-2 col-xl-2";
-  let iconColors = Traec.Im.fromJS(indicatorIconData)
+  let iconColors = Traec.Im.fromJS(indicatorIconData);
 
   let iconHeightHandler = () => {
-    console.log("iconHeightHandler not implemented")
-  }
+    console.log("iconHeightHandler not implemented");
+  };
 
   let selectIndicator = () => {
-    console.log("selectIndicator not implemented")
-  }
+    console.log("selectIndicator not implemented");
+  };
 
   let setSelectedIndicator = () => {
-    console.log("setSelectedIndicator not implemented")
-  }
+    console.log("setSelectedIndicator not implemented");
+  };
 
   let icons = iconColors
-    .sortBy(iconData => (order ? order.get(iconData.get("name"), 1e6) : iconData.get("name")))
+    .sortBy((iconData) =>
+      order ? order.get(iconData.get("name"), 1e6) : iconData.get("name")
+    )
     .map((iconData, i) => (
       <IndicatorIcon
         key={i}
@@ -86,7 +99,9 @@ function IndicatorIcons({category}) {
         setOrder={setOrder}
         order={order}
         index={i}
-        onClickHandler={() => selectIndicator(iconData, setSelected, selected, setSelectedIndicator)}
+        onClickHandler={() =>
+          selectIndicator(iconData, setSelected, selected, setSelectedIndicator)
+        }
       />
     ));
 
@@ -98,27 +113,24 @@ function IndicatorIcons({category}) {
         body={<div className="row">{icons}</div>}
       />
     </div>
-  )
-
+  );
 }
 
-
 function IssueIcons() {
+  let [selected, setSelected] = useState([]);
+  let [maxIconHeight, setMaxIconHeight] = useState(0);
 
-  let [selected, setSelected] = useState([])
-  let [maxIconHeight, setMaxIconHeight] = useState(0)
-
-  let hostId = "sustool"
+  let hostId = "sustool";
   let iconWidth = "col-sm-6 col-md-3 col-l-2 col-xl-2";
-  let iconColors = Traec.Im.fromJS(issueIconData)
+  let iconColors = Traec.Im.fromJS(issueIconData);
 
   let iconHeightHandler = () => {
-    console.log("iconHeightHandler not implemented")
-  }
+    console.log("iconHeightHandler not implemented");
+  };
 
   let selectIssue = () => {
-    console.log("selectIssue not implemented")
-  }
+    console.log("selectIssue not implemented");
+  };
 
   const icons = iconColors.map((iconData, i) => {
     let fullName = iconData.get("_key");
@@ -140,8 +152,8 @@ function IssueIcons() {
         selected={selected?.id === _id}
         onClickHandler={() => selectIssue(fullName, name, _id)}
       />
-    )
-  })
+    );
+  });
 
   return (
     <div className="row">
@@ -152,46 +164,82 @@ function IssueIcons() {
         //button={(<CumulativeButton cumulation={cumulation} setCumulation={setCumulation} />)}
       />
     </div>
-  )
-
+  );
 }
 
+function ReportCards() {
+  return (
+    <>
+      <div class="card-deck m-3">
+        <div class="card shadow p-3 mb-5 bg-white rounded text-center">
+          <div class="card-body">
+            <h1 class="card-title mb-3">3/5</h1>
+            <p class="card-text">Categories in Green</p>
+            <p class="card-text">
+              <small class="text-muted">
+                <span class="green-dot mr-1 mt-2"></span>
+                Overall this indicator is on target
+              </small>
+            </p>
+          </div>
+        </div>
 
+        <div class="card shadow p-3 mb-5 bg-white rounded text-center">
+          <div class="card-body">
+            <h1 class="card-title mb-3">73%</h1>
+            <p class="card-text">of Reports Approved</p>
+
+            <p class="card-text">
+              <small class="text-muted">
+                <span class="red-dot mr-1 mt-2"></span> 2 reports are overdue
+              </small>{" "}
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
 function MockDashboard(props) {
-  let {companyId} = props
+  let { companyId } = props;
 
-  let [selected, setSelected] = useState(Traec.Im.Set())
-  let [loading, setLoading] = useState(true)
-  let [showSideBar, setShowSideBar] = useState(true)
+  let [selected, setSelected] = useState(Traec.Im.Set());
+  let [loading, setLoading] = useState(true);
+  let [showSideBar, setShowSideBar] = useState(true);
 
-  let projectId = "11ebbb32-5d60-4c32-a90a-b773aa40f905"
+  let projectId = "11ebbb32-5d60-4c32-a90a-b773aa40f905";
 
   useEffect(() => {
-    console.log("Dashboard will take 3 seconds to load")
-    setTimeout(() => {setLoading(false)}, 3000)
-  }, [])
+    console.log("Dashboard will take 3 seconds to load");
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   if (loading) {
-    return (<TipsSpinner />)
+    return <TipsSpinner />;
   }
 
   return (
     <ErrorBoundary>
-
       <BootstrapSplitPane
         localStorageKey={`dashboard-sidebar-grid-split-${projectId}`}
         allowZero={true}
         pane1ClassName={"page-sidebar vh100-navbar"}
-        onCollapseHook={() => { setShowSideBar(false) }}
-        onExpandHook={() => { setShowSideBar(true) }}
+        onCollapseHook={() => {
+          setShowSideBar(false);
+        }}
+        onExpandHook={() => {
+          setShowSideBar(true);
+        }}
         pane1Style={{
-          borderRight: "1px solid grey"
+          borderRight: "1px solid grey",
         }}
       >
         <div>
           <ErrorBoundary>
-            <DashboardSidebar 
-              {...props} 
+            <DashboardSidebar
+              {...props}
               selected={selected}
               setSelected={setSelected}
             />
@@ -200,7 +248,6 @@ function MockDashboard(props) {
 
         <div>
           <ErrorBoundary>
-
             {/*
             <ErrorBoundary>
               <IssueIcons />
@@ -211,6 +258,14 @@ function MockDashboard(props) {
             </ErrorBoundary>
             */}
 
+            {/* <ErrorBoundary>
+              <GuageChart />
+            </ErrorBoundary> */}
+
+            <ErrorBoundary>
+              <ReportCards />
+            </ErrorBoundary>
+
             <ErrorBoundary>
               <HorizontalBarChart />
             </ErrorBoundary>
@@ -218,45 +273,50 @@ function MockDashboard(props) {
             <ErrorBoundary>
               <IndicatorBarChart />
             </ErrorBoundary>
-
           </ErrorBoundary>
         </div>
       </BootstrapSplitPane>
-
-
-
     </ErrorBoundary>
-  )
+  );
 }
 
-
-function CompanyIDInput({id, setId}) {
-  return (    
+function CompanyIDInput({ id, setId }) {
+  return (
     <form className="form-inline my-2 my-lg-0">
-      <input className="form-control form-control-sm mr-sm-2" type="search" placeholder="Company ID" aria-label="CompanyId" value={id} onChange={(e) => setId(e.target.value)} />
-      <button className="btn btn-sm btn-outline-secondary my-2 my-sm-0" type="submit">Load</button>
+      <input
+        className="form-control form-control-sm mr-sm-2"
+        type="search"
+        placeholder="Company ID"
+        aria-label="CompanyId"
+        value={id}
+        onChange={(e) => setId(e.target.value)}
+      />
+      <button
+        className="btn btn-sm btn-outline-secondary my-2 my-sm-0"
+        type="submit"
+      >
+        Load
+      </button>
     </form>
-  )
+  );
 }
-
 
 function App() {
-
-  let [id, setId] = useState("80ba2bd1")
+  let [id, setId] = useState("80ba2bd1");
 
   return (
     <ErrorBoundary>
       <NavBar
-        brand={(<span style={{color: "white"}}>Dashboard beta</span>)}
-        preUserItems={(<CompanyIDInput id={id} setId={setId}/>)}
+        brand={<span style={{ color: "white" }}>Dashboard beta</span>}
+        preUserItems={<CompanyIDInput id={id} setId={setId} />}
         include_myprofile={false}
         //location={useLocation()}
         //createText={""}
         //azureConfig={getAzureConfig()}
       />
-      <MockDashboard companyId={id}/>
+      <MockDashboard companyId={id} />
     </ErrorBoundary>
-  )
+  );
 }
 
-export default App
+export default App;
