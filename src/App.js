@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import TipsSpinner from "./spinners/tipsSpinner";
-
 //import StackedBarPopulated from "./chartComponents/StackedBarChart";
 //import HorizontalStackedBarPopulated from "./chartComponents/horizontalStackedBar";
 //import CumHorizBarPop from "./carbonMockData/toolData/cumBar";
@@ -17,11 +16,19 @@ import { DetailedIconChart } from "./legacy/charts";
 
 import { issueIconData, indicatorIconData, indicatorChartData } from "./data";
 import DashboardSidebar from "./sidebar";
+import NavbarComponent from "./components/navbar/navbar";
 
 import Traec from "traec";
 
 import BootstrapSplitPane from "traec-react/utils/bootstrap/splitbs";
-import GuageChart from "./chartComponents/guageChart";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Link,
+  BrowserRouter,
+} from "react-router-dom";
+import Navbar from "./components/navbar/navbar";
 
 function IndicatorBarChart() {
   let [cumulation, setCumulation] = useState("current");
@@ -305,17 +312,20 @@ function App() {
   let [id, setId] = useState("80ba2bd1");
 
   return (
-    <ErrorBoundary>
-      <NavBar
-        brand={<span style={{ color: "white" }}>Dashboard beta</span>}
-        preUserItems={<CompanyIDInput id={id} setId={setId} />}
-        include_myprofile={false}
-        //location={useLocation()}
-        //createText={""}
-        //azureConfig={getAzureConfig()}
-      />
-      <MockDashboard companyId={id} />
-    </ErrorBoundary>
+    <>
+      <NavbarComponent />
+      <ErrorBoundary>
+        {/* <NavBar
+          brand={<span style={{ color: "white" }}>Dashboard beta</span>}
+          preUserItems={<CompanyIDInput id={id} setId={setId} />}
+          include_myprofile={false}
+          //location={useLocation()}
+          //createText={""}
+          //azureConfig={getAzureConfig()}
+        /> */}
+        <MockDashboard companyId={id} />
+      </ErrorBoundary>
+    </>
   );
 }
 
