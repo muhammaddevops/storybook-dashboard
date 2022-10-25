@@ -174,35 +174,41 @@ function IssueIcons() {
   );
 }
 
+function ReportCard({result, subtitle, dotColor, dotText}) {
+  return (
+    <div className="card shadow pt-3 mb-5 bg-white rounded text-center">
+      <div className="card-body">
+        <h1 className="card-title mb-3">{result}</h1>
+        <p className="card-text">{subtitle}</p>
+        <p className="card-text">
+          <small className="text-muted">
+            <span className={`${dotColor}-dot mr-1 mt-2`}></span>
+              {dotText}
+            </small>
+        </p>
+      </div>
+    </div>
+  )
+}
+
 function ReportCards() {
   return (
     <>
-      <div class="card-deck m-3">
-        <div class="card shadow p-3 mb-5 bg-white rounded text-center">
-          <div class="card-body">
-            <h1 class="card-title mb-3">3/5</h1>
-            <p class="card-text">Categories in Green</p>
-            <p class="card-text">
-              <small class="text-muted">
-                <span class="green-dot mr-1 mt-2"></span>
-                Overall this indicator is on target
-              </small>
-            </p>
-          </div>
-        </div>
+      <div className="card-deck ml-0 mr-0 mt-3 mb-3">
+        <ReportCard 
+          result="3/5"
+          subtitle="Categories in Green"
+          dotColor="green"
+          dotText="Overall this indicator is on target"
+        />
 
-        <div class="card shadow p-3 mb-5 bg-white rounded text-center">
-          <div class="card-body">
-            <h1 class="card-title mb-3">73%</h1>
-            <p class="card-text">of Reports Approved</p>
+        <ReportCard 
+          result="73%"
+          subtitle="of Reports Approved"
+          dotColor="red"
+          dotText="2 reports are overdue"
+        />
 
-            <p class="card-text">
-              <small class="text-muted">
-                <span class="red-dot mr-1 mt-2"></span> 2 reports are overdue
-              </small>{" "}
-            </p>
-          </div>
-        </div>
       </div>
     </>
   );
