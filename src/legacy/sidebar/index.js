@@ -53,10 +53,21 @@ class CompanyTree extends React.Component {
 
     return (
       <div className="container-fluid mt-3 m-0 p-0">
-        <CompanyTreeRow {...this.props} isRoot={true} depth={0} company={rootCompany} />
+        <CompanyTreeRow 
+          {...this.props} 
+          isRoot={true}
+          depth={0} 
+          company={rootCompany} 
+        />
       </div>
     );
   }
+}
+
+const getCompanyPath = (companyId, companies, path=Traec.Im.List(), depth=0, max_depth=30) => {
+  let parentId = companies?.get(companyId)?.get("parentid")
+  if (!parentId || (depth > max_depth)) { return path }
+  return getCompanyPath(parentId, companies, path=path.unshift(companyId), depth=depth+1)
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -79,6 +90,10 @@ const mapStateToProps = (state, ownProps) => {
   let company = state.getInPath(`entities.companies.byId.${companyId}`);
   let companyList = state.getInPath(`entities.companies.byId`);
 
+  //let companyPath = getCompanyPath(companyId, companyList)
+  let companyPath = company?.get("ancestors")
+  let companyPathIds = Traec.Im.Set((companyPath || Traec.Im.List()).map(i => i.get("uid")))
+
   // Provide a default (in case the user doesn't have access to the parent company)
   if (project && !company) {
     company = project.get("company").set("projects", Traec.Im.fromJS([project]));
@@ -90,7 +105,7 @@ const mapStateToProps = (state, ownProps) => {
   // Get tenant meta-data info that we will pass down to
   let tenant_meta = state.getInPath(`entities.tenant.meta_json`) || Traec.Im.Map();
 
-  return { companyId, projectId, refId, trackerId, company, companyList, currentIds, tenant_meta };
+  return { companyId, projectId, refId, trackerId, company, companyList, companyPath, companyPathIds, currentIds, tenant_meta };
 };
 
 export default connect(mapStateToProps)(CompanyTree);

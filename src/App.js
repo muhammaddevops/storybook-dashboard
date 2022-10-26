@@ -25,7 +25,8 @@ import BootstrapSplitPane from "traec-react/utils/bootstrap/splitbs";
 import GuageChart from "./chartComponents/guageChart";
 
 import OriginalSidebar from "./legacy/sidebar"
-import DashboardSidebar from "./sidebar";
+import NewSidebar from "./sidebar"
+import DashboardSidebar from "./sidebar/indicators";
 
 
 function IndicatorBarChart() {
@@ -268,7 +269,7 @@ function MockDashboard(props) {
               selected={selected}
               setSelected={setSelected}
             />*/}
-            <OriginalSidebar 
+            <NewSidebar 
               _type={_type}
               _id={_id}
             />

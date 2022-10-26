@@ -238,93 +238,58 @@ function CompanyAdminDropdown(props) {
   );
 }
 
-export default class CompanyTreeRow extends React.Component {
-  constructor(props) {
-    super(props);
+export default function CompanyTreeRow(props) {
+  let { company, extraContent, currentIds={}, tenant_meta={} } = props;
+  let companyId = company?.get("uid");
+  let depth = company?.get("depth")
 
-    let { company } = props;
-    let companyId = company ? company.get("uid") : null;
+  let [collapsed, setCollapsed] = useState(companyId ? localStorage.getItem(`sidebar-${companyId}`, "false") == "true" : false)
 
-    this.state = {
-      collapsed: companyId ? localStorage.getItem(`sidebar-${companyId}`, "false") == "true" : false,
-      formParams: {},
-      formFields: companyFields,
-      inFocus: false
-    };
+  if (!company) {
+    return null;
   }
+  
+  let currentId = currentIds.refId || currentIds.projectId || currentIds.companyId;
+  let isCurrent = companyId === currentId;
+  let bgColor = isCurrent ? "bg-info" : ""; //(inFocus ? "bg-secondary" : "");
 
-  toggleCollapsed(e, companyId) {
-    e.preventDefault();
-    let value = !this.state.collapsed;
-    localStorage.setItem(`sidebar-${companyId}`, value);
-    this.setState({ collapsed: value });
-    console.log("Set collapsed state for company", companyId, value);
-  }
+  let _companyId = companyId ? companyId.substring(0, 8) : null;
 
-  render() {
-    let { company, currentIds, isRoot, depth, tenant_meta, companyPathIds, recurse } = this.props;
-    let { inFocus } = this.state;
-    if (!company) {
-      return null;
-    }
-    let currentId = currentIds.refId || currentIds.projectId || currentIds.companyId;
+  let isRoot = company?.get("depth") == 1
+  let TitleTag = isRoot ? "b" : "span";
 
-    let companyId = company.get("uid");
-    let isCurrent = companyId === currentId;
-    let bgColor = isCurrent ? "bg-info" : ""; //(inFocus ? "bg-secondary" : "");
+  //console.log(company.get("name"), depth)
+  return (
+    <ErrorBoundary>
+      <div
+        className={`row m-0 p-0 ${bgColor}`}
+      >
+        <Indent
+          depth={depth}
+          expanded={!collapsed}
+          onClickHandler={e => {
+            let _value = !collapsed
+            localStorage.setItem(`sidebar-${companyId}`, _value)
+            setCollapsed(_value)
+          }}
+        />
 
-    let _companyId = companyId ? companyId.substring(0, 8) : null;
+        <p className={`m-0 p-0 mr-2 col`} style={{ display: "inline-block", verticalAlign: "middle" }}>
+          <Link to={`/company/${_companyId}`}>
+            <TitleTag>{company.get("name")}</TitleTag>
+          </Link>
+        </p>
+        {extraContent}
 
-    let TitleTag = isRoot ? "b" : "span";
+        <MiniErrorBoundary>
+          {isCurrent ? (
+            <CompanyPermission companyId={currentId} requiresAdmin={true}>
+              <CompanyAdminDropdown companyId={companyId} company={company} tenant_meta={tenant_meta} />
+            </CompanyPermission>
+          ) : null}
+        </MiniErrorBoundary>
+      </div>
 
-    let hasChildren =
-      (company.get("childids") || Traec.Im.List()).size > 0 || (company.get("projects") || Traec.Im.List()).size > 0;
-
-    //console.log(company.get("name"), depth)
-    return (
-      <ErrorBoundary>
-        <div
-          className={`row m-0 p-0 ${bgColor}`}
-          onMouseOver={() => this.setState({ inFocus: true })}
-          onMouseOut={() => this.setState({ inFocus: false })}
-        >
-          <Indent
-            depth={depth}
-            expanded={!this.state.collapsed && hasChildren}
-            onClickHandler={e => {
-              this.toggleCollapsed(e, companyId);
-            }}
-          />
-
-          <p className={`m-0 p-0 mr-2 col`} style={{ display: "inline-block", verticalAlign: "middle" }}>
-            <Link to={`/company/${_companyId}`}>
-              <TitleTag>{company.get("name")}</TitleTag>
-            </Link>
-          </p>
-          {this.props.extraContent}
-
-          <MiniErrorBoundary>
-            {isCurrent ? (
-              <CompanyPermission companyId={currentId} requiresAdmin={true}>
-                <CompanyAdminDropdown companyId={companyId} company={company} tenant_meta={tenant_meta} />
-              </CompanyPermission>
-            ) : null}
-          </MiniErrorBoundary>
-        </div>
-
-        {/* Sub-Project/Company list */}
-        {!this.state.collapsed ? (
-          <React.Fragment>
-            <CompanyProjectList 
-              {...this.props} 
-              hide={currentIds.companyId != companyId}
-            />
-            <SubCompanyList 
-              {...this.props} 
-            />
-          </React.Fragment>
-        ) : null}
-      </ErrorBoundary>
-    );
-  }
+    </ErrorBoundary>
+  );
 }
