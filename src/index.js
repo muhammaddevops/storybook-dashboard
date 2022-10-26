@@ -10,6 +10,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import NavBar from "traec-react/navBar";
 
+import ReduxModals from "./legacy/utils/modal";
 
 // const root = ReactDOM.createRoot(document.getElementById("root"));
 // root.render(
@@ -32,6 +33,9 @@ ReactDOM.render(
             <App />
           </ErrorBoundary>
         </BrowserRouter>
+        <ErrorBoundary>
+          <ReduxModals />
+        </ErrorBoundary>
       </Provider>
     </StrictMode>
   </ErrorBoundary>,
