@@ -239,11 +239,9 @@ function CompanyAdminDropdown(props) {
 }
 
 export default function CompanyTreeRow(props) {
-  let { company, extraContent, currentIds={}, tenant_meta={} } = props;
+  let { company, extraContent, collapsed, onClickHandler, currentIds={}, tenant_meta={} } = props;
   let companyId = company?.get("uid");
-  let depth = company?.get("depth")
-
-  let [collapsed, setCollapsed] = useState(companyId ? localStorage.getItem(`sidebar-${companyId}`, "false") == "true" : false)
+  let depth = company?.get("depth") - 1
 
   if (!company) {
     return null;
@@ -267,11 +265,7 @@ export default function CompanyTreeRow(props) {
         <Indent
           depth={depth}
           expanded={!collapsed}
-          onClickHandler={e => {
-            let _value = !collapsed
-            localStorage.setItem(`sidebar-${companyId}`, _value)
-            setCollapsed(_value)
-          }}
+          onClickHandler={onClickHandler}
         />
 
         <p className={`m-0 p-0 mr-2 col`} style={{ display: "inline-block", verticalAlign: "middle" }}>

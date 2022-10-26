@@ -264,11 +264,6 @@ function MockDashboard(props) {
       >
         <div>
           <ErrorBoundary>
-            {/*<DashboardSidebar
-              {...props}
-              selected={selected}
-              setSelected={setSelected}
-            />*/}
             <NewSidebar 
               _type={_type}
               _id={_id}

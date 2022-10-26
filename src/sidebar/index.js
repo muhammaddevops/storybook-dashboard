@@ -5,6 +5,7 @@ import { ErrorBoundary } from "traec-react/errors";
 
 import CompanyRow from "./companyRow"
 import ProjectRow from "./projectRow"
+import DashboardSidebar from "./indicators";
 
 
 function ChildRow({child, depth}) {
@@ -23,11 +24,38 @@ function ChildRow({child, depth}) {
     return <ChildComponent {..._props}/>
 }
 
+function CompanyChildren({company, hide}) {
+
+    if (hide) { return null }
+
+    // Get out the child Projects and Companies
+    let childCompanies = (company?.get("children") || Traec.Im.List())
+        .map(i => i.set("_type", "company"))
+    let childProjects = (company?.get("projects") || Traec.Im.List())
+        .map(i => i.set("_type", "project"))
+
+    // Join company and project type children and order alphabetically
+    let _childObjects = childCompanies.concat(childProjects)
+        .sortBy(i => i.get("name"))
+    
+    // Render the children (companies and projects)
+    return  _childObjects.map(
+        (child, i) => (
+            <ChildRow 
+                key={i}
+                child={child} 
+                depth={company?.get("depth")} 
+            />
+        )
+    )
+}
 
 function CompanyTree(props) {
     let {_type, company, project} = props
 
     let [state, setState] = useState({})
+    let [selected, setSelected] = useState(Traec.Im.Set());
+    let [collapsed, setCollapsed] = useState(true)
 
     useEffect(() => {
         Traec.fetchRequiredFor({
@@ -49,49 +77,20 @@ function CompanyTree(props) {
             <CompanyRow key={i} company={company}/>
         ))
 
-    // 
-    let _children = null
-    if (_type == "company") {
-        let childCompanies = (company?.get("children") || Traec.Im.List())
-            .map(i => i.set("_type", "company"))
-        let childProjects = (company?.get("projects") || Traec.Im.List())
-            .map(i => i.set("_type", "project"))
-
-        // Join company and project type children and order alphabetically
-        let _childObjects = childCompanies.concat(childProjects)
-            .sortBy(i => i.get("name"))
-        
-        // Render the children (companies and projects)
-        _children = _childObjects.map(
-            (child, i) => (
-                <ChildRow 
-                    child={child} 
-                    depth={company?.get("depth")} 
-                />
-            )
-        )
-    }
-
-    let childcompanies = _type == "company" ? company
-        ?.get("children")
-        ?.sortBy(i => i.get("name"))
-        ?.map((company, i) => (
-            <CompanyRow key={i} company={company}/>
-        )) : null
-    
-    let childprojects = _type == "company" ? company
-        ?.get("projects")
-        ?.map((project, i) => (
-            <ProjectRow key={i} project={project} depth={company?.get("depth") + 1} />
-        )) : null
-
     return (
         <React.Fragment>
             {ancestors}
-            <CompanyRow company={company}/>
-            {childprojects}
-            {childcompanies}
-            <ProjectRow project={project} depth={company?.get("depth") + 1}/>
+            <CompanyRow company={company} collapsed={collapsed} onClickHandler={() => setCollapsed(!collapsed)} />
+            {collapsed ? null : (<CompanyChildren company={company} hide={(_type != "company")}/>)}
+            <ProjectRow project={project} depth={company?.get("depth")}/>
+            <hr/>
+            <DashboardSidebar
+              {...props}
+              companyId={company?.get("uid")}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <hr/>
         </React.Fragment>
     )
 }
