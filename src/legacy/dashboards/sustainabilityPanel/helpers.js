@@ -11,19 +11,20 @@ export const sortAndCropData = (data, fromDate, toDate, key) => {
   // Sort the incoming (immutable) data
   data = data
     .toList()
-    .filter(i => i)
-    .sortBy(i => i.get("endDate"));
+    .filter((i) => i)
+    .sortBy((i) => i.get("endDate"));
 
   // Remove data, which is out of the date boundary
   if (fromDate && toDate) {
     data = data.filter(
-      i =>
-        Moment(i.get("endDate")).isAfter(fromDate) && Moment(i.get("endDate")).isBefore(toDate.clone().add(1, "days"))
+      (i) =>
+        Moment(i.get("endDate")).isAfter(fromDate) &&
+        Moment(i.get("endDate")).isBefore(toDate.clone().add(1, "days"))
     );
   }
 
   // Remove entries that do not have any data attached to the period
-  data = data.filter(i => {
+  data = data.filter((i) => {
     let _data = i.getInPath(key);
     return _data != null && _data.size != 0;
   });
@@ -34,16 +35,22 @@ export const dataToIconColors = (data, key, filterFunc) => {
   //console.log("dataToIconColors", data?.toJS());
   let _data = (data?.last() || Traec.Im.Map()).get(key) || Traec.Im.Map();
   if (filterFunc) {
-    _data = _data.filter(i => filterFunc(i));
+    _data = _data.filter((i) => filterFunc(i));
   }
   //console.log("Getting colors for data", _data?.toJS());
   return _data
-    .map((value, key) => value.set("color", getColor(value.get("color_value")).hex()).set("_key", key))
+    .map((value, key) =>
+      value
+        .set("color", getColor(value.get("color_value")).hex())
+        .set("_key", key)
+    )
     .toList()
-    .filter(value => value.get("value") !== null && value.get("value") !== undefined);
+    .filter(
+      (value) => value.get("value") !== null && value.get("value") !== undefined
+    );
 };
 
-export const reduxDataPath = props => {
+export const reduxDataPath = (props) => {
   let { companyId, refId, filterHash, category_id } = props;
   let _id = companyId || refId;
   let _prefix = companyId ? "company" : "project";
@@ -51,7 +58,10 @@ export const reduxDataPath = props => {
 };
 
 const listToMap = (obj, key = "uid") => {
-  return obj.reduce((acc, cur) => acc.set(cur.getInPath(key), cur), Traec.Im.Map());
+  return obj.reduce(
+    (acc, cur) => acc.set(cur.getInPath(key), cur),
+    Traec.Im.Map()
+  );
 };
 
 export const listsToDicts = (obj, maxDepth = 2, key = "uid", depth = 0) => {
@@ -64,7 +74,7 @@ export const listsToDicts = (obj, maxDepth = 2, key = "uid", depth = 0) => {
   }
 
   if (Traec.Im.isMap(obj)) {
-    return obj.map(value => listsToDicts(value, maxDepth, key, depth + 1));
+    return obj.map((value) => listsToDicts(value, maxDepth, key, depth + 1));
   }
 
   return obj;
@@ -75,7 +85,10 @@ export const dataToState = (props, state, data) => {
   console.log("GOT DATA", data, _data?.toJS());
 
   // Index the data as a Map so that we can merge in new time-periods
-  let _dataMap = _data.reduce((acc, cur) => acc.set(cur.get("cacheKey") || cur.get("uid"), cur), Traec.Im.Map());
+  let _dataMap = _data.reduce(
+    (acc, cur) => acc.set(cur.get("cacheKey") || cur.get("uid"), cur),
+    Traec.Im.Map()
+  );
 
   // Get the base path and the part of data that we are getting
   let basePath = reduxDataPath(props);
@@ -114,7 +127,7 @@ const getFilterKey = (key, value) => {
   return `${key}__${operator}`;
 };
 
-export const transformFilters = filters => {
+export const transformFilters = (filters) => {
   let _filters = Traec.Im.Map();
   for (let [key, value] of filters.entries()) {
     _filters = _filters.set(getFilterKey(key, value), value);
@@ -127,14 +140,21 @@ export const formatDate = (date, add = 0) => {
   if (!date) {
     return null;
   }
-  return date
-    .clone()
-    .add(add, "days")
-    .format("YYYY-MM-DD");
+  return date.clone().add(add, "days").format("YYYY-MM-DD");
 };
 
 export const getFetchBody = (props, part) => {
-  let { fromDate, toDate, filters, refId, selected, category_id, indicator_id, indicatorId, cumulation } = props;
+  let {
+    fromDate,
+    toDate,
+    filters,
+    refId,
+    selected,
+    category_id,
+    indicator_id,
+    indicatorId,
+    cumulation,
+  } = props;
   let _filters = transformFilters(filters);
 
   let _categoryId = category_id || Traec.Im.fromJS(selected || {}).get("id");
@@ -150,8 +170,8 @@ export const getFetchBody = (props, part) => {
       indicator_id: indicatorId || indicator_id,
       cumulation: cumulation || "total",
       filters: _filters,
-      ignore_cache: !!filters.size
-    }
+      ignore_cache: false,
+    },
   };
 
   // Get a unique hash of the filters
@@ -162,7 +182,7 @@ export const getFetchBody = (props, part) => {
   return { fetchBody, filterHash, payloadHash, queryParams };
 };
 
-export const getReverseIconNames = iconNames => {
+export const getReverseIconNames = (iconNames) => {
   // Flip the icon names
   let reverseIconNames = {};
   for (let key of Object.keys(iconNames)) {

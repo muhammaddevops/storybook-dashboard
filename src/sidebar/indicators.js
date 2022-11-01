@@ -46,9 +46,9 @@ export const getFetchBody = (props, part) => {
       //indicator_id: indicatorId || indicator_id,
       cumulation: cumulation || "total",
       filters: _filters,
-      ignore_cache: !!filters.size,
+      ignore_cache: false,
       only_latest: true,
-      ignore_cache: true,
+      ignore_cache: false,
     },
   };
 
