@@ -5,7 +5,7 @@ import TipsSpinner from "./spinners/tipsSpinner";
 //import StackedBarPopulated from "./chartComponents/StackedBarChart";
 //import HorizontalStackedBarPopulated from "./chartComponents/horizontalStackedBar";
 //import CumHorizBarPop from "./carbonMockData/toolData/cumBar";
-import GaugeChart from 'react-gauge-chart'
+import GaugeChart from "react-gauge-chart";
 import HorizontalBarChart from "./carbonMockData/toolData/horizontalBarChart";
 import { ISSUE_RAG_DATA } from "./carbonMockData/toolData/_data";
 import { ErrorBoundary } from "traec-react/errors/handleError";
@@ -24,10 +24,10 @@ import Traec from "traec";
 import BootstrapSplitPane from "traec-react/utils/bootstrap/splitbs";
 import GuageChart from "./chartComponents/guageChart";
 
-import OriginalSidebar from "./legacy/sidebar"
-import NewSidebar from "./sidebar"
+import OriginalSidebar from "./legacy/sidebar";
+import NewSidebar from "./sidebar";
 import DashboardSidebar from "./sidebar/indicators";
-
+import UploadFileDragDrop from "./utils/dragDropUpload";
 
 function IndicatorBarChart() {
   let [cumulation, setCumulation] = useState("current");
@@ -173,7 +173,7 @@ function IssueIcons() {
   );
 }
 
-function ReportCard({value, title, dotColor, dotText}) {
+function ReportCard({ value, title, dotColor, dotText }) {
   return (
     <div className="card shadow p-3 mb-5 bg-white rounded text-center">
       <div className="card-body">
@@ -182,34 +182,29 @@ function ReportCard({value, title, dotColor, dotText}) {
         <p className="card-text">
           <small className="text-muted">
             <span className={`${dotColor}-dot mr-1 mt-2`}></span>
-              {dotText}
-            </small>
+            {dotText}
+          </small>
         </p>
       </div>
     </div>
-  )
+  );
 }
 
 function GaugeChartCard() {
   return (
     <div className="card shadow p-3 mb-5 bg-white rounded text-center">
       <div className="card-body">
-        <GaugeChart
-          nrOfLevels={20} 
-          percent={0.86} 
-          textColor={null}
-        />
+        <GaugeChart nrOfLevels={20} percent={0.86} textColor={null} />
       </div>
     </div>
-
-  )
+  );
 }
 
 function ReportCards() {
   return (
     <>
       <div className="card-deck m-3">
-        <ReportCard 
+        <ReportCard
           value="3/5"
           title="of reports submitted"
           dotColor="green"
@@ -218,7 +213,7 @@ function ReportCards() {
 
         <GaugeChartCard />
 
-        <ReportCard 
+        <ReportCard
           value="73%"
           title="of Reports Approved"
           dotColor="red"
@@ -232,15 +227,15 @@ function MockDashboard(props) {
   let { _type, _id } = props;
 
   let [selected, setSelected] = useState(Traec.Im.Set());
-  let [loading, setLoading] = useState(true);
+  let [loading, setLoading] = useState(false);
   let [showSideBar, setShowSideBar] = useState(true);
 
-  useEffect(() => {
-    console.log("Dashboard will take 3 seconds to load");
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   console.log("Dashboard will take 3 seconds to load");
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 3000);
+  // }, []);
 
   if (loading) {
     return <TipsSpinner />;
@@ -264,10 +259,7 @@ function MockDashboard(props) {
       >
         <div>
           <ErrorBoundary>
-            <NewSidebar 
-              _type={_type}
-              _id={_id}
-            />
+            <NewSidebar _type={_type} _id={_id} />
           </ErrorBoundary>
         </div>
 
@@ -286,6 +278,8 @@ function MockDashboard(props) {
             {/* <ErrorBoundary>
               <GuageChart />
             </ErrorBoundary> */}
+
+            <UploadFileDragDrop />
 
             <ErrorBoundary>
               <ReportCards />
@@ -326,26 +320,17 @@ function CompanyIDInput({ id, setId }) {
   );
 }
 
-
 function MockDashboardWrapper(props) {
+  let { _type, _id } = useParams();
 
-  let {_type, _id} = useParams()
+  console.log("Rendering MockDashboardWrapper", _type, _id);
 
-  console.log("Rendering MockDashboardWrapper", _type, _id)
-
-  return (
-    <MockDashboard 
-      _type={_type}
-      _id={_id}
-    />
-  )
+  return <MockDashboard _type={_type} _id={_id} />;
 }
-
 
 function Home() {
-  return (<p>I am home</p>)
+  return <p>I am home</p>;
 }
-
 
 function MainSwitch(props) {
   //console.log("REDIRECT AT MAINSWITCH", props);
@@ -355,15 +340,16 @@ function MainSwitch(props) {
       <Route path="/:_type/:_id" element={<MockDashboardWrapper />} />
 
       {/* Route to a Project or WorkPackage Dashboard */}
-      <Route path="/project/:_projectId/wpack/:_refId" element={<MockDashboardWrapper />} />
+      <Route
+        path="/project/:_projectId/wpack/:_refId"
+        element={<MockDashboardWrapper />}
+      />
 
       {/* Default render homepage if no path matched */}
       <Route path="/" element={<Home />} />
-
     </Routes>
   );
 }
-
 
 function App() {
   let [id, setId] = useState("80ba2bd1");
