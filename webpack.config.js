@@ -8,7 +8,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
-let DEV_SERVER_PROXY_HOST = "http://localhost:8001";
+let DEV_SERVER_PROXY_HOST = "http://localhost:5000";  // If running dashboard-severless for local development wrapper
+//let DEV_SERVER_PROXY_HOST = "http://localhost:8001";
 //let DEV_SERVER_PROXY_HOST = "https://uk.test.sustainabilitytool.com";
 let DEV_SERVER_PROXY_SECURE = DEV_SERVER_PROXY_HOST.startsWith("https");
 let DEV_SERVER_PROXY_CHANGEORIGIN = true;
