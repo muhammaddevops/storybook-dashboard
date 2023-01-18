@@ -1,8 +1,16 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
+import { ErrorBoundary } from "traec-react/errors";
+import store from "traec/redux/store";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import NavBar from "traec-react/navBar";
+
+import ReduxModals from "./legacy/utils/modal";
 
 // const root = ReactDOM.createRoot(document.getElementById("root"));
 // root.render(
@@ -12,15 +20,26 @@ import reportWebVitals from "./reportWebVitals";
 // );
 
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
 
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
+//const rootElement = document.getElementById("root");
+//const root = createRoot(rootElement);
 
-root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>
+ReactDOM.render(
+  <ErrorBoundary title="Error loading the application">
+    <StrictMode>
+      <Provider store={store}>
+        <BrowserRouter>
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
+        </BrowserRouter>
+        <ErrorBoundary>
+          <ReduxModals />
+        </ErrorBoundary>
+      </Provider>
+    </StrictMode>
+  </ErrorBoundary>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
