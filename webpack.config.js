@@ -131,7 +131,7 @@ module.exports = {
     symlinks: false,
     alias: Object.assign(
       {
-        AppSrc: path.resolve(__dirname, "src/"),
+        "storybook-dashboard": path.resolve(__dirname, "src/"),
         AppAssets: path.resolve(__dirname, "assets/")
       },
       devLibAliases

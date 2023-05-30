@@ -5,9 +5,9 @@ import Traec from "traec";
 import BaseFormConnected from "traec-react/utils/form";
 
 import { ErrorBoundary } from "traec-react/errors";
-import { SetMetaDataFields } from "AppSrc/legacy/forms/meta";
+import { SetMetaDataFields } from "storybook-dashboard/legacy/forms/meta";
 
-import { setAndShowModal } from "AppSrc/legacy/utils/modal";
+import { setAndShowModal } from "storybook-dashboard/legacy/utils/modal";
 import { Spinner } from "traec-react/utils/entities";
 
 

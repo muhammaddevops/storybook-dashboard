@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 
-//import StackedBarPopulated from "./chartComponents/StackedBarChart";
-//import HorizontalStackedBarPopulated from "./chartComponents/horizontalStackedBar";
-//import CumHorizBarPop from "./carbonMockData/toolData/cumBar";
-import HorizontalBarChart from "AppSrc/carbonMockData/toolData/horizontalBarChart";
-import { ErrorBoundary } from "traec-react/errors/handleError";
+import { CumulativeButton } from "storybook-dashboard/legacy/dashboards/sustainabilityPanel/utils";
+import { DetailedIconChart } from "storybook-dashboard/legacy/dashboards/charts";
 
-import { CumulativeButton } from "AppSrc/legacy/dashboards/sustainabilityPanel/utils";
-import { DetailedIconChart } from "AppSrc/legacy/dashboards/charts";
-
-import { indicatorChartData } from "AppSrc/data";
+import { indicatorChartData } from "storybook-dashboard/data";
 
 import Traec from "traec";
 

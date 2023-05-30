@@ -1,8 +1,8 @@
 import React from "react";
-import { MetricSlider } from "AppSrc/sliders";
-import { DetailedIconChart } from "AppSrc/charts";
+import { MetricSlider } from "storybook-dashboard/sliders";
+import { DetailedIconChart } from "storybook-dashboard/charts";
 import { BSCard, BSBtn } from "traec-react/utils/bootstrap";
-import { IndicatorIcon, metricName } from "AppSrc/dashboards/icons";
+import { IndicatorIcon, metricName } from "storybook-dashboard/dashboards/icons";
 import Im from "traec/immutable";
 
 export class MetricSelector extends React.Component {

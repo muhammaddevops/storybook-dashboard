@@ -11,9 +11,9 @@ import { ProjectPermission } from "traec/utils/permissions/project";
 import { MiniErrorBoundary } from "./error";
 import { workPackageFields } from "./forms";
 
-import { setAndShowModal } from "AppSrc/legacy/utils/modal";
+import { setAndShowModal } from "storybook-dashboard/legacy/utils/modal";
 import { setNewWorkPackageFields, nestDunderKeys, getTerm } from "./utils";
-import { SetMetaDataFields } from "AppSrc/legacy/forms/meta";
+import { SetMetaDataFields } from "storybook-dashboard/legacy/forms/meta";
 import { sendInviteModal } from "./projectRow";
 
 import { Indent } from "./indent";

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Traec from "traec";
 
 import CompanyTreeRow from "./companyRow";
-import { getProjectProps } from "AppSrc/legacy/utils/getters";
+import { getProjectProps } from "storybook-dashboard/legacy/utils/getters";
 
 const get_root_company = (company, companyList) => {
   // Get the root company from a list of companies

@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, useParams } from "react-router-dom";
-import TipsSpinner from "AppSrc/spinners/tipsSpinner";
+import TipsSpinner from "storybook-dashboard/spinners/tipsSpinner";
 
 //import StackedBarPopulated from "./chartComponents/StackedBarChart";
 //import HorizontalStackedBarPopulated from "./chartComponents/horizontalStackedBar";
 //import CumHorizBarPop from "./carbonMockData/toolData/cumBar";
-import GaugeChart from 'react-gauge-chart'
-import HorizontalBarChart from "AppSrc/carbonMockData/toolData/horizontalBarChart";
+import HorizontalBarChart from "storybook-dashboard/carbonMockData/toolData/horizontalBarChart";
 import { ErrorBoundary } from "traec-react/errors/handleError";
 
-import { CumulativeButton } from "AppSrc/legacy/dashboards/sustainabilityPanel/utils";
-import { DetailedIconChart } from "AppSrc/legacy/dashboards/charts";
-import { indicatorChartData } from "AppSrc/data";
+
 
 import Traec from "traec";
 
 import BootstrapSplitPane from "traec-react/utils/bootstrap/splitbs";
-import GuageChart from "AppSrc/chartComponents/guageChart";
 
-import OriginalSidebar from "AppSrc/legacy/sidebar"
-import NewSidebar from "AppSrc/sidebar"
-import DashboardSidebar from "AppSrc/sidebar/indicators";
+import NewSidebar from "storybook-dashboard/sidebar"
 
 
 import IndicatorBarChart from "./charts"

@@ -1,5 +1,5 @@
 import Moment from "moment";
-import { parseReportingPeriods } from "AppSrc/dashboards";
+import { parseReportingPeriods } from "storybook-dashboard/dashboards";
 
 export const reportingPeriodsToFromDates = function(reportingPeriods) {
   //console.log('REPORTING PERIODS')

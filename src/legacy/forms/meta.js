@@ -3,7 +3,7 @@ import Traec from "traec";
 import { BSCard, BSBtn, BSBtnDropdown } from "traec-react/utils/bootstrap";
 
 import CreatableSelect from "react-select/creatable";
-import { AddFormField } from "AppSrc/legacy/forms/fields";
+import { AddFormField } from "storybook-dashboard/legacy/forms/fields";
 import { ErrorBoundary } from "traec-react/errors";
 import { v4 as uuidv4 } from "uuid";
 import { HTMLText } from "traec/utils/html";

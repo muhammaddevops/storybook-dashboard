@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Traec from "traec";
 import { BSCard } from "traec-react/utils/bootstrap";
 import { DateString } from "../components";
-import { colorScale } from "AppSrc/dashboards/utils";
+import { colorScale } from "storybook-dashboard/dashboards/utils";
 import { Spinner } from "traec-react/utils/entities";
 import { dataToState, getFetchBody } from "../sustainabilityPanel/helpers";
 import { TitleTooltip, getRefsFromReportingPeriods } from "./utils";

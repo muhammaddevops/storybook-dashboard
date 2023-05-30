@@ -16,8 +16,8 @@ import { confirmDelete } from "traec-react/utils/sweetalert";
 
 import { getTerm } from "./utils";
 
-import { setAndShowModal } from "AppSrc/legacy/utils/modal";
-import { SetMetaDataFields } from "AppSrc/legacy/forms/meta";
+import { setAndShowModal } from "storybook-dashboard/legacy/utils/modal";
+import { SetMetaDataFields } from "storybook-dashboard/legacy/forms/meta";
 
 
 const deleteCompany = (e, companyId, company) => {

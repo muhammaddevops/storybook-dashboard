@@ -15,7 +15,7 @@ import {
   reduxDataPath,
   sortAndCropData
 } from "./helpers";
-import ProjectReportCommitStatus from "AppSrc/dashboards/lists/projectCommitStatus";
+import ProjectReportCommitStatus from "storybook-dashboard/dashboards/lists/projectCommitStatus";
 
 const getPreDispatchHook = props => action => {
   let { fetchBody } = props;

@@ -3,7 +3,7 @@ import Traec from "traec";
 import { connect } from "react-redux";
 
 import WorkPackageRow from "./wpRow";
-import { getProjectProps } from "AppSrc/legacy/utils/getters";
+import { getProjectProps } from "storybook-dashboard/legacy/utils/getters";
 
 class ProjectWPTree extends React.Component {
   constructor(props) {

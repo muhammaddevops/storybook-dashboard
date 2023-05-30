@@ -1,7 +1,7 @@
 import React from "react";
 import Traec from "traec";
 
-import { ReportPeriodString } from "AppSrc/legacy/utils/dates";
+import { ReportPeriodString } from "storybook-dashboard/legacy/utils/dates";
 
 export const getTerm = (term, props) => {
   let { tenant_meta } = props;

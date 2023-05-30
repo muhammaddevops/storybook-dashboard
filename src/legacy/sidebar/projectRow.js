@@ -7,16 +7,16 @@ import { ProjectPermission } from "traec/utils/permissions/project";
 import { BSBtnDropdown } from "traec-react/utils/bootstrap";
 import BaseFormConnected from "traec-react/utils/form";
 
-import { getProjectProps } from "AppSrc/legacy/utils/getters";
+import { getProjectProps } from "storybook-dashboard/legacy/utils/getters";
 import { MiniErrorBoundary } from "./error";
 import { workPackageFields } from "./forms";
 import ProjectWPTree from "./wpTree";
 import { Indent } from "./indent";
 import { confirmDelete } from "traec-react/utils/sweetalert";
 
-import { setAndShowModal } from "AppSrc/legacy/utils/modal";
+import { setAndShowModal } from "storybook-dashboard/legacy/utils/modal";
 import { setNewWorkPackageFields, nestDunderKeys, getTerm } from "./utils";
-import { SetMetaDataFields } from "AppSrc/legacy/forms/meta";
+import { SetMetaDataFields } from "storybook-dashboard/legacy/forms/meta";
 
 const deleteProject = (e, projectId, project) => {
   e.preventDefault();

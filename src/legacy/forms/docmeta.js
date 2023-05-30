@@ -9,7 +9,7 @@ import Traec from "traec";
 import { ErrorBoundary } from "traec-react/errors";
 
 import { AddEditFormFields } from "./fields";
-import { setAndShowModal } from "AppSrc/utils/modal";
+import { setAndShowModal } from "storybook-dashboard/utils/modal";
 import { DropzoneButton } from "traec-react/utils/documentUpload/dropZone";
 import { BSBtn } from "traec-react/utils/bootstrap";
 

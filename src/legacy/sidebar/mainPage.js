@@ -3,16 +3,16 @@ import { Route, Switch } from "react-router-dom";
 
 import Traec from "traec";
 
-import { Footer } from "AppSrc/footer";
+import { Footer } from "storybook-dashboard/footer";
 import { connect } from "react-redux";
 
 import { setNavBarItems } from "traec-react/navBar";
 import { setSideBarItems } from "traec-react/sideBar";
 import { ErrorBoundary } from "traec-react/errors";
 
-import AccountTree from "AppSrc/tree";
-import { CompanyRouter } from "AppSrc/company/router";
-import { ProjectRouter } from "AppSrc/project/router";
+import AccountTree from "storybook-dashboard/tree";
+import { CompanyRouter } from "storybook-dashboard/company/router";
+import { ProjectRouter } from "storybook-dashboard/project/router";
 
 import BootstrapSplitPane from "traec-react/utils/bootstrap/splitbs";
 

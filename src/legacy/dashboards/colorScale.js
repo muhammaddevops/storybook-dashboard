@@ -1,5 +1,5 @@
 import React from "react";
-import { getColor } from "AppSrc/dashboards/utils";
+import { getColor } from "storybook-dashboard/dashboards/utils";
 
 export function ColorScale({ show, nCells = 64 }) {
   if (!show) {

@@ -15,10 +15,10 @@ function MainSwitch(props) {
   return (
     <Routes>
       {/* Route to a Company Dashboard */}
-      <Route path="/:_type/:_id" element={<MockDashboardWrapper />} />
+      {/* <Route path="/:_type/:_id" element={<MockDashboardWrapper />} /> */}
 
       {/* Route to a Project or WorkPackage Dashboard */}
-      <Route path="/:_type/:_id/wpack/:_refId" element={<MockDashboardWrapper />} />
+      {/* <Route path="/:_type/:_id/wpack/:_refId" element={<MockDashboardWrapper />} /> */}
 
       {/* Default render homepage if no path matched */}
       <Route path="/" element={<Home />} />

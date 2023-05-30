@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef} from "react";
 
-import useLocalStorage from "AppSrc/hooks/useLocalStorage";
+import useLocalStorage from "storybook-dashboard/hooks/useLocalStorage";
 
 import Pane from "./Pane";
 import Resizer from "./Resizer";
