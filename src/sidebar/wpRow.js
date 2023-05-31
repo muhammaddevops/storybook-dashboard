@@ -11,9 +11,9 @@ import { ProjectPermission } from "traec/utils/permissions/project";
 import { MiniErrorBoundary } from "./error";
 import { workPackageFields } from "./forms";
 
-import { setAndShowModal } from "AppSrc/legacy/utils/modal";
+import { setAndShowModal } from "storybook-dashboard/legacy/utils/modal";
 import { setNewWorkPackageFields, nestDunderKeys, getTerm } from "./utils";
-import { SetMetaDataFields } from "AppSrc/legacy/forms/meta";
+import { SetMetaDataFields } from "storybook-dashboard/legacy/forms/meta";
 import { sendInviteModal } from "./projectRow";
 
 import { Indent } from "./indent";
@@ -29,20 +29,33 @@ const deleteWorkPackage = (e, props) => {
   confirmDelete({
     text: `This will delete the Reporting Package: ${refName}.\n\n Are you sure you would like to proceed?`,
     onConfirm: () => {
-      new Traec.Fetch("tracker_ref", "delete", { trackerId, refId, commitId }).dispatch();
-    }
+      new Traec.Fetch("tracker_ref", "delete", {
+        trackerId,
+        refId,
+        commitId,
+      }).dispatch();
+    },
   });
 };
 
 function SubRefs(props) {
-  let { projectId, tracker, cref, subRefs, showMenu, menuOnSelectedOnly, initDepth, tenant_meta } = props;
+  let {
+    projectId,
+    tracker,
+    cref,
+    subRefs,
+    showMenu,
+    menuOnSelectedOnly,
+    initDepth,
+    tenant_meta,
+  } = props;
   if (!subRefs) {
     return null;
   }
 
   return Traec.Im.fromJS(subRefs)
-    .filter(i => i)
-    .sortBy(i => i.get("name"))
+    .filter((i) => i)
+    .sortBy((i) => i.get("name"))
     .map((item, i) => (
       <WorkPackageRowConnected
         key={i}
@@ -58,8 +71,15 @@ function SubRefs(props) {
     ));
 }
 
-const addSubReportingPackage = props => {
-  let { trackerId, rootRefId: refId, commitId, treeId, disciplines, projectReportingPeriods } = props;
+const addSubReportingPackage = (props) => {
+  let {
+    trackerId,
+    rootRefId: refId,
+    commitId,
+    treeId,
+    disciplines,
+    projectReportingPeriods,
+  } = props;
 
   let modalId = `CommonReportingPackageModal001`;
 
@@ -69,14 +89,14 @@ const addSubReportingPackage = props => {
     refId,
     commitId,
     treeId,
-    skip_categories: true
+    skip_categories: true,
   });
   fetch.updateFetchParams({
-    preFetchHook: body => {
+    preFetchHook: (body) => {
       let _body = {
         ...nestDunderKeys({ ...body, latest_commit__comment: "." }),
         ref_name: body.name || "master",
-        from_commit: commitId
+        from_commit: commitId,
       };
       console.log("CREATING REF WITH PARAMETERS", _body);
       return _body;
@@ -84,7 +104,7 @@ const addSubReportingPackage = props => {
     postSuccessHook: () => {
       $(`#${modalId}`).modal("hide");
       location.reload();
-    }
+    },
   });
 
   setAndShowModal(modalId, {
@@ -92,16 +112,20 @@ const addSubReportingPackage = props => {
     body: (
       <BaseFormConnected
         params={fetch.params}
-        fields={setNewWorkPackageFields(workPackageFields, disciplines, projectReportingPeriods)}
+        fields={setNewWorkPackageFields(
+          workPackageFields,
+          disciplines,
+          projectReportingPeriods
+        )}
         //prePostHook={this.setPostData}
         forceShowForm={true}
         hideUnderline={true}
       />
-    )
+    ),
   });
 };
 
-const editMetaData = props => {
+const editMetaData = (props) => {
   let { trackerId, commitId, rootRefId: refId, rootRef: cref } = props;
   let modalId = `ReportingPackageModal_${refId}`;
 
@@ -120,19 +144,27 @@ const editMetaData = props => {
             params: {
               trackerId,
               refId,
-              commitId
-            }
+              commitId,
+            },
           }}
           metaJson={cref.getInPath("latest_commit.meta_json")}
         />
-      )
+      ),
     },
     true
   );
 };
 
 function WPDropDownMenu(props) {
-  let { showMenu, projectId, trackerId, rootRefId: refId, commitId, treeId, hideDelete } = props;
+  let {
+    showMenu,
+    projectId,
+    trackerId,
+    rootRefId: refId,
+    commitId,
+    treeId,
+    hideDelete,
+  } = props;
   if (!showMenu) {
     return null;
   }
@@ -142,26 +174,36 @@ function WPDropDownMenu(props) {
   let links = [
     {
       name: `Add a sub-${rp_term}`,
-      onClick: e => addSubReportingPackage(props)
+      onClick: (e) => addSubReportingPackage(props),
     },
     {
       name: "Settings",
-      linkTo: `/project/${projectId.substring(0, 8)}/wpack/${refId.substring(0, 8)}/details`
+      linkTo: `/project/${projectId.substring(0, 8)}/wpack/${refId.substring(
+        0,
+        8
+      )}/details`,
     },
     {
       name: `${rp_term} info`,
-      onClick: e => editMetaData(props)
+      onClick: (e) => editMetaData(props),
     },
-    { name: "Invite reporters", onClick: e => sendInviteModal(props) }
+    { name: "Invite reporters", onClick: (e) => sendInviteModal(props) },
   ];
 
   if (!hideDelete) {
-    links.concat([{}, { name: "Delete", onClick: e => deleteWorkPackage(e, props) }]);
+    links.concat([
+      {},
+      { name: "Delete", onClick: (e) => deleteWorkPackage(e, props) },
+    ]);
   }
 
   return (
     <MiniErrorBoundary>
-      <BSBtnDropdown links={links} floatStyle={"sidebar-dropdown-text float-right"} header={" "} />
+      <BSBtnDropdown
+        links={links}
+        floatStyle={"sidebar-dropdown-text float-right"}
+        header={" "}
+      />
     </MiniErrorBoundary>
   );
 }
@@ -200,7 +242,7 @@ class WorkPackageRow extends React.Component {
       includeRoot = true,
       alternateBgColor = true,
       menuOnSelectedOnly = false,
-      initDepth = 0
+      initDepth = 0,
     } = this.props;
 
     if (!rootRef) {
@@ -219,10 +261,15 @@ class WorkPackageRow extends React.Component {
     let bgColor = this.isCurrent() ? "bg-info" : "";
     let linkLoc = this.isRoot()
       ? `/project/${projectId.substring(0, 8)}`
-      : `/project/${projectId.substring(0, 8)}/wpack/${rootRef.get("uid").substring(0, 8)}`;
+      : `/project/${projectId.substring(0, 8)}/wpack/${rootRef
+          .get("uid")
+          .substring(0, 8)}`;
 
     let rowNum = counter.row++;
-    let styleObj = showMenu && alternateBgColor ? { backgroundColor: (rowNum + 1) % 2 && !bgColor ? "#ddd" : "" } : {};
+    let styleObj =
+      showMenu && alternateBgColor
+        ? { backgroundColor: (rowNum + 1) % 2 && !bgColor ? "#ddd" : "" }
+        : {};
     styleObj = { display: "inline-block", verticalAlign: "middle" };
 
     let shouldRender = rootRef.get("project") === projectId;
@@ -275,7 +322,9 @@ const mapStateToProps = (state, ownProps) => {
   let treeId = rootRef.getInPath("latest_commit.tree_root.uid");
 
   // There should not be multiple revisions of branches
-  let subBranches = state.getInPath(`entities.commitBranches.commit.${commitId}.branch`) || Traec.Im.Map();
+  let subBranches =
+    state.getInPath(`entities.commitBranches.commit.${commitId}.branch`) ||
+    Traec.Im.Map();
   let subRefs = [];
   for (let branch of subBranches.valueSeq()) {
     let branchRefs = branch.get("byId") || Traec.Im.Map();
@@ -288,11 +337,24 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   // Get the disciplines for this work package
-  let disciplines = state.getInPath(`entities.projectObjects.byId.${projectId}.disciplines`);
+  let disciplines = state.getInPath(
+    `entities.projectObjects.byId.${projectId}.disciplines`
+  );
   // Get the reporting periods for this project
-  let projectReportingPeriods = state.getInPath(`entities.projectReportingPeriods.byId.${projectId}`);
+  let projectReportingPeriods = state.getInPath(
+    `entities.projectReportingPeriods.byId.${projectId}`
+  );
 
-  return { commitId, rootRefId, trackerId, treeId, subRefs, projectId, disciplines, projectReportingPeriods };
+  return {
+    commitId,
+    rootRefId,
+    trackerId,
+    treeId,
+    subRefs,
+    projectId,
+    disciplines,
+    projectReportingPeriods,
+  };
 };
 
 const WorkPackageRowConnected = connect(mapStateToProps)(WorkPackageRow);

@@ -5,141 +5,151 @@ import Traec from "traec";
 import BaseFormConnected from "traec-react/utils/form";
 
 import { ErrorBoundary } from "traec-react/errors";
-import { SetMetaDataFields } from "AppSrc/legacy/forms/meta";
+import { SetMetaDataFields } from "storybook-dashboard/legacy/forms/meta";
 
-import { setAndShowModal } from "AppSrc/legacy/utils/modal";
+import { setAndShowModal } from "storybook-dashboard/legacy/utils/modal";
 import { Spinner } from "traec-react/utils/entities";
 
-
-export const reportingPeriodChoices = ["MONTHS", "DAYS", "WEEKS", "QUARTERS", "YEARS"];
-
+export const reportingPeriodChoices = [
+  "MONTHS",
+  "DAYS",
+  "WEEKS",
+  "QUARTERS",
+  "YEARS",
+];
 
 export const companyFields = {
-    name: { value: "", class: "col", endRow: true }
+  name: { value: "", class: "col", endRow: true },
 };
 
-
 export const projectFields = {
-    name: { value: "", class: "col", endRow: true },
-    //address: { value: "", class: "col", endRow: true },
-    //suburb: { value: "", class: "col" },
-    //postcode: { value: "", class: "col" },
-    //country: { value: "", class: "col", endRow: true },
-  
-    //client: {value:'', class: 'col-sm-8'},
-    //NLA: {label: 'Project NLA', value:'', class: 'col', endRow: true},
-  
-    // Setting up from a template
-    from_template: {
-      label: "From Template",
-      defaultValue: null,
-      value: null,
-      class: "col",
-      inputType: "select",
-      endRow: true,
-      options: [
-        <option key={1} value={""}>
-          None
-        </option>
-      ]
-    },
-    reporting_from_template: {
-      label: "Inherit Reporting, AuthGroups and Supplier Setup from Template",
-      value: false,
-      onChange: e => {
-        e.preventDefault();
-        console.log("PRESSED");
-      },
-      inputType: "checkbox",
-      endRow: true
-    },
-    include_subcategories: {
-      label: "Include Reporting Packages from Template",
-      value: false,
-      onChange: e => {
-        e.preventDefault();
-        console.log("PRESSED");
-      },
-      inputType: "checkbox",
-      endRow: true
-    },
-  
-    // Project reporting periods
-    reporting_start: {
-      label: "Reporting from: ",
-      value: "",
-      inputType: "date",
-      class: "col"
-    },
-    reporting_end: {
-      label: "Reporting to: ",
-      value: "",
-      inputType: "date",
-      class: "col",
-      endRow: true
-    },
-    reporting_freq: {
-      label: "Every",
-      value: 1,
-      class: "col",
-      inputType: "number"
-    },
-    reporting_units: {
-      label: "Reporting Increments",
-      value: "MONTHS",
-      class: "col",
-      inputType: "select",
-      endRow: true,
-      options: reportingPeriodChoices.map((name, i) => (
-        <option key={i} value={name}>
-          {name}
-        </option>
-      ))
-    }
-  };
+  name: { value: "", class: "col", endRow: true },
+  //address: { value: "", class: "col", endRow: true },
+  //suburb: { value: "", class: "col" },
+  //postcode: { value: "", class: "col" },
+  //country: { value: "", class: "col", endRow: true },
 
-  export const workPackageDetailsFields = {
-    name: { value: "", class: "col", endRow: true },
-    commit__reporting_period: { label: "Set the current Reporting Period", value: "", inputType: "select", class: "col" },
-    commit__due_date: {
-      label: "Due date: ",
-      value: "",
-      inputType: "date",
-      class: "col",
-      helpText: "Due dates for the following reporting periods will be set accordingly"
+  //client: {value:'', class: 'col-sm-8'},
+  //NLA: {label: 'Project NLA', value:'', class: 'col', endRow: true},
+
+  // Setting up from a template
+  from_template: {
+    label: "From Template",
+    defaultValue: null,
+    value: null,
+    class: "col",
+    inputType: "select",
+    endRow: true,
+    options: [
+      <option key={1} value={""}>
+        None
+      </option>,
+    ],
+  },
+  reporting_from_template: {
+    label: "Inherit Reporting, AuthGroups and Supplier Setup from Template",
+    value: false,
+    onChange: (e) => {
+      e.preventDefault();
+      console.log("PRESSED");
     },
-    commit__discipline: {
-      label: "Appoint reporter for this package",
-      value: "",
-      inputType: "select",
-      class: "col",
-      endRow: true
-    }
-  };
-  
-  export const workPackageFields = {
-    name: { value: "", class: "col", endRow: true },
-    latest_commit__reporting_period: {
-      label: "Set the current Reporting Period",
-      value: "",
-      inputType: "select",
-      class: "col"
+    inputType: "checkbox",
+    endRow: true,
+  },
+  include_subcategories: {
+    label: "Include Reporting Packages from Template",
+    value: false,
+    onChange: (e) => {
+      e.preventDefault();
+      console.log("PRESSED");
     },
-    latest_commit__due_date: {
-      label: "Due date: ",
-      value: "",
-      inputType: "date",
-      class: "col",
-      helpText: "Due dates for the following reporting periods will be set accordingly"
-    },
-    latest_commit__discipline: {
-      label: "Appoint reporter for this package",
-      value: "",
-      inputType: "select",
-      class: "col",
-      endRow: true
-    }
-  };
+    inputType: "checkbox",
+    endRow: true,
+  },
+
+  // Project reporting periods
+  reporting_start: {
+    label: "Reporting from: ",
+    value: "",
+    inputType: "date",
+    class: "col",
+  },
+  reporting_end: {
+    label: "Reporting to: ",
+    value: "",
+    inputType: "date",
+    class: "col",
+    endRow: true,
+  },
+  reporting_freq: {
+    label: "Every",
+    value: 1,
+    class: "col",
+    inputType: "number",
+  },
+  reporting_units: {
+    label: "Reporting Increments",
+    value: "MONTHS",
+    class: "col",
+    inputType: "select",
+    endRow: true,
+    options: reportingPeriodChoices.map((name, i) => (
+      <option key={i} value={name}>
+        {name}
+      </option>
+    )),
+  },
+};
+
+export const workPackageDetailsFields = {
+  name: { value: "", class: "col", endRow: true },
+  commit__reporting_period: {
+    label: "Set the current Reporting Period",
+    value: "",
+    inputType: "select",
+    class: "col",
+  },
+  commit__due_date: {
+    label: "Due date: ",
+    value: "",
+    inputType: "date",
+    class: "col",
+    helpText:
+      "Due dates for the following reporting periods will be set accordingly",
+  },
+  commit__discipline: {
+    label: "Appoint reporter for this package",
+    value: "",
+    inputType: "select",
+    class: "col",
+    endRow: true,
+  },
+};
+
+export const workPackageFields = {
+  name: { value: "", class: "col", endRow: true },
+  latest_commit__reporting_period: {
+    label: "Set the current Reporting Period",
+    value: "",
+    inputType: "select",
+    class: "col",
+  },
+  latest_commit__due_date: {
+    label: "Due date: ",
+    value: "",
+    inputType: "date",
+    class: "col",
+    helpText:
+      "Due dates for the following reporting periods will be set accordingly",
+  },
+  latest_commit__discipline: {
+    label: "Appoint reporter for this package",
+    value: "",
+    inputType: "select",
+    class: "col",
+    endRow: true,
+  },
+};
 
 export const setFetchBody = (post, company, meta) => {
   let styles = (company.getInPath("meta_json.styles") || Traec.Im.Map()).toJS();
@@ -148,7 +158,9 @@ export const setFetchBody = (post, company, meta) => {
   post.meta_json = Traec.Im.isImmutable(meta) ? meta?.toJS() : {} || {};
   post.meta_json.syles = styles;
 
-  let [templateTrackerId, templateProjectId] = (post.from_template || "").split(".");
+  let [templateTrackerId, templateProjectId] = (post.from_template || "").split(
+    "."
+  );
   post.from_template = templateTrackerId || null;
   post.meta_json.from_template = templateTrackerId || null;
 
@@ -157,7 +169,7 @@ export const setFetchBody = (post, company, meta) => {
       startDate: post.reporting_start,
       endDate: post.reporting_end,
       freq_unit: post.reporting_units,
-      freq_num: post.reporting_freq
+      freq_num: post.reporting_freq,
     };
   } else {
     post.meta_json.setup_from_project = templateProjectId;
@@ -169,8 +181,9 @@ export const setFetchBody = (post, company, meta) => {
 
 const getNewProjectMeta = (company, tenant_meta) => {
   let inputs =
-    Traec.Im.fromJS(tenant_meta || Traec.Im.Map()).get("new_project_input_details") ||
-    company.getInPath("meta_json.input_details");
+    Traec.Im.fromJS(tenant_meta || Traec.Im.Map()).get(
+      "new_project_input_details"
+    ) || company.getInPath("meta_json.input_details");
 
   let meta = company.get("meta_json") || Traec.Im.Map();
 
@@ -194,7 +207,7 @@ class CompanyProjectForm extends React.Component {
       formFields: projectFields,
       setTemplateFields: false,
       templateCounter: 0,
-      meta: getNewProjectMeta(props.company, props.tenant_meta)
+      meta: getNewProjectMeta(props.company, props.tenant_meta),
     };
 
     // Data required from the API for this Component
@@ -204,9 +217,9 @@ class CompanyProjectForm extends React.Component {
         "list",
         {},
         {
-          preUpdateHook: args => ({ ...args, onlyTemplates: true })
+          preUpdateHook: (args) => ({ ...args, onlyTemplates: true }),
         }
-      )
+      ),
     ];
   }
 
@@ -228,7 +241,10 @@ class CompanyProjectForm extends React.Component {
     let templateOptions = templates
       .toList()
       .map((tracker, i) => (
-        <option key={i} value={`${tracker.get("uid")}.${tracker.getInPath("project.uid")}`}>
+        <option
+          key={i}
+          value={`${tracker.get("uid")}.${tracker.getInPath("project.uid")}`}
+        >
           {tracker.getInPath("project.name")}
         </option>
       ))
@@ -242,7 +258,7 @@ class CompanyProjectForm extends React.Component {
 
     this.setState({
       setTemplateFields: true,
-      templateCounter: templates?.size
+      templateCounter: templates?.size,
     });
   }
 
@@ -258,29 +274,30 @@ class CompanyProjectForm extends React.Component {
     let { meta } = this.state;
 
     let fetch = new Traec.Fetch("project_and_setup", "post", {
-      postTrackerSetupSuccessHook: data => {
+      postTrackerSetupSuccessHook: (data) => {
         console.log("Got response from tracker setup. Waiting 7 seconds", data);
-        setTimeout(function() {
+        setTimeout(function () {
           let projectId = data.project.uid;
           console.log("Redirecting to new created project", projectId);
           location.href = `/project/${projectId.substring(0, 8)}`;
         }, 2000);
-      }
+      },
     });
     fetch.updateFetchParams({
-      preFetchHook: body => setFetchBody(body, company, meta),
-      postSuccessHook: data => {
+      preFetchHook: (body) => setFetchBody(body, company, meta),
+      postSuccessHook: (data) => {
         $(`#${modalId}`).modal("hide");
         setAndShowModal("projectSetupPending", {
           title: "Setting up your project",
-          body: <ProjectSetupPending />
+          body: <ProjectSetupPending />,
         });
-      }
+      },
     });
 
     let metaInputs =
-      Traec.Im.fromJS(tenant_meta || Traec.Im.Map()).get("new_project_input_details") ||
-      company.getInPath("meta_json.input_details");
+      Traec.Im.fromJS(tenant_meta || Traec.Im.Map()).get(
+        "new_project_input_details"
+      ) || company.getInPath("meta_json.input_details");
 
     return (
       <React.Fragment>
@@ -290,7 +307,7 @@ class CompanyProjectForm extends React.Component {
           fields={projectFields}
           forceShowForm={true}
           hideUnderline={true}
-          postChangeHook={e => {
+          postChangeHook={(e) => {
             if (e.target.name == "reporting_from_template") {
               this.setReportingDisabled(e.target.checked);
             }
@@ -309,7 +326,7 @@ class CompanyProjectForm extends React.Component {
                 hideAdmin={true}
                 hideSave={true}
                 metaJson={meta}
-                setMeta={_meta => {
+                setMeta={(_meta) => {
                   this.setState({ meta: _meta });
                 }}
               />
@@ -327,7 +344,9 @@ const mapStateToProps = (state, ownProps) => {
   let projects = company.get(`projects`);
   // Get tracker templates
   let trackers = state.getInPath(`entities.trackers.byId`);
-  let templates = trackers ? trackers.filter(item => item.get("is_template")) : null;
+  let templates = trackers
+    ? trackers.filter((item) => item.get("is_template"))
+    : null;
   let user = state.getInPath("auth.user");
   return { company, projects, templates, user };
 };

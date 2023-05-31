@@ -7,16 +7,16 @@ import { ProjectPermission } from "traec/utils/permissions/project";
 import { BSBtnDropdown } from "traec-react/utils/bootstrap";
 import BaseFormConnected from "traec-react/utils/form";
 
-import { getProjectProps } from "AppSrc/legacy/utils/getters";
+import { getProjectProps } from "storybook-dashboard/legacy/utils/getters";
 import { MiniErrorBoundary } from "./error";
 import { workPackageFields } from "./forms";
 import ProjectWPTree from "./wpTree";
 import { Indent } from "./indent";
 import { confirmDelete } from "traec-react/utils/sweetalert";
 
-import { setAndShowModal } from "AppSrc/legacy/utils/modal";
+import { setAndShowModal } from "storybook-dashboard/legacy/utils/modal";
 import { setNewWorkPackageFields, nestDunderKeys, getTerm } from "./utils";
-import { SetMetaDataFields } from "AppSrc/legacy/forms/meta";
+import { SetMetaDataFields } from "storybook-dashboard/legacy/forms/meta";
 
 const deleteProject = (e, projectId, project) => {
   e.preventDefault();
@@ -44,14 +44,14 @@ const deleteProject = (e, projectId, project) => {
               fetch.updateFetchParams({
                 postSuccessHook: () => {
                   location.href = redirectUrl;
-                }
+                },
               });
               fetch.dispatch();
-            }
+            },
           });
-        }
+        },
       });
-    }
+    },
   });
 };
 
@@ -60,7 +60,10 @@ function InviteEmailRow({ index, email, emails, setEmails }) {
     <div className="row mb-1">
       <div className="col-sm-11">{email}</div>
       <div className="col-sm-1">
-        <button className={"btn btn-sm btn-primary"} onClick={() => setEmails(emails.delete(index))}>
+        <button
+          className={"btn btn-sm btn-primary"}
+          onClick={() => setEmails(emails.delete(index))}
+        >
           del
         </button>
       </div>
@@ -69,10 +72,15 @@ function InviteEmailRow({ index, email, emails, setEmails }) {
 }
 
 const sendInvites = ({ emails, projectId, project_discipline_id }) => {
-  console.log("Inviting users for project", projectId, project_discipline_id, emails?.toJS());
+  console.log(
+    "Inviting users for project",
+    projectId,
+    project_discipline_id,
+    emails?.toJS()
+  );
 
   let meta_json = {
-    auto_accept_if_user_exists: true
+    auto_accept_if_user_exists: true,
   };
 
   for (let email of emails) {
@@ -82,8 +90,8 @@ const sendInvites = ({ emails, projectId, project_discipline_id }) => {
       body: {
         email,
         project_discipline: project_discipline_id,
-        meta_json
-      }
+        meta_json,
+      },
     });
     fetch.dispatch();
   }
@@ -99,7 +107,7 @@ function InviteRefUsers(props) {
 
   let base_discipline_id = cref?.getInPath("latest_commit.discipline");
   let project_discipline_id = disciplines
-    .filter(i => i.get("base_uid") == base_discipline_id)
+    .filter((i) => i.get("base_uid") == base_discipline_id)
     .first()
     ?.get("uid");
 
@@ -111,17 +119,30 @@ function InviteRefUsers(props) {
     <React.Fragment>
       <div className="row">
         <div className="col-sm-11">
-          <input className="form-control" value={email} onChange={e => setEmail(e.target.value)} />
+          <input
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
         <div className="col-sm-1">
-          <button className="btn btn-sm btn-primary float-right" onClick={() => setEmails(emails.concat(email))}>
+          <button
+            className="btn btn-sm btn-primary float-right"
+            onClick={() => setEmails(emails.concat(email))}
+          >
             Add
           </button>
         </div>
       </div>
       <hr />
       {emails.map((email, index) => (
-        <InviteEmailRow key={index} index={index} email={email} emails={emails} setEmails={setEmails} />
+        <InviteEmailRow
+          key={index}
+          index={index}
+          email={email}
+          emails={emails}
+          setEmails={setEmails}
+        />
       ))}
       {emails.size ? (
         <React.Fragment>
@@ -141,16 +162,24 @@ function InviteRefUsers(props) {
   );
 }
 
-export const sendInviteModal = props => {
+export const sendInviteModal = (props) => {
   let modalId = "CommonProjectModal001";
   setAndShowModal(modalId, {
     title: "Invite reporters",
-    body: <InviteRefUsers {...props} modalId={modalId} />
+    body: <InviteRefUsers {...props} modalId={modalId} />,
   });
 };
 
-const addReportingPackage = props => {
-  let { trackerId, refId, commitId, rootCommitId, treeId, disciplines, projectReportingPeriods } = props;
+const addReportingPackage = (props) => {
+  let {
+    trackerId,
+    refId,
+    commitId,
+    rootCommitId,
+    treeId,
+    disciplines,
+    projectReportingPeriods,
+  } = props;
   let modalId = "CommonProjectModal001";
 
   // Get the fetch for adding a work package
@@ -161,19 +190,19 @@ const addReportingPackage = props => {
     refId,
     commitId,
     treeId,
-    skip_categories: true
+    skip_categories: true,
   });
   fetch.updateFetchParams({
-    preFetchHook: body => {
+    preFetchHook: (body) => {
       let _body = {
         ...nestDunderKeys({ ...body, latest_commit__comment: "." }),
         ref_name: body.name || "master",
-        from_commit: fromCommitId
+        from_commit: fromCommitId,
       };
       console.log("CREATING REF WITH PARAMETERS", _body);
       return _body;
     },
-    postSuccessHook: data => {
+    postSuccessHook: (data) => {
       console.log("Sucessfully created Ref", data);
       let cref = Traec.Im.fromJS(data).getInPath("target.ref");
       let base_discipline_id = cref?.getInPath("latest_commit.discipline");
@@ -182,7 +211,7 @@ const addReportingPackage = props => {
       } else {
         $(`#${modalId}`).modal("hide");
       }
-    }
+    },
   });
 
   setAndShowModal(modalId, {
@@ -190,16 +219,20 @@ const addReportingPackage = props => {
     body: (
       <BaseFormConnected
         params={fetch.params}
-        fields={setNewWorkPackageFields(workPackageFields, disciplines, projectReportingPeriods)}
+        fields={setNewWorkPackageFields(
+          workPackageFields,
+          disciplines,
+          projectReportingPeriods
+        )}
         //prePostHook={this.setPostData}
         forceShowForm={true}
         hideUnderline={true}
       />
-    )
+    ),
   });
 };
 
-const editMetaData = props => {
+const editMetaData = (props) => {
   let { project, projectId, trackerId } = props;
   let modalId = "CommonProjectModal001";
 
@@ -213,16 +246,16 @@ const editMetaData = props => {
         saveMetaFetchProps={{
           handler: "project",
           method: "patch",
-          params: { projectId }
+          params: { projectId },
         }}
         pushMetaFetchProps={{
           handler: "tracker_dispatch",
           method: "post",
-          params: { trackerId }
+          params: { trackerId },
         }}
         metaJson={project.get("meta_json")}
       />
-    )
+    ),
   });
 };
 
@@ -242,8 +275,8 @@ function ProjectAdminDropdown(props) {
       setState,
       requiredFetches: [
         new Traec.Fetch("project_discipline", "list"),
-        new Traec.Fetch("project_reporting_periods", "list")
-      ]
+        new Traec.Fetch("project_reporting_periods", "list"),
+      ],
     });
   });
 
@@ -255,12 +288,15 @@ function ProjectAdminDropdown(props) {
         links={[
           {
             name: getTerm("Add a Reporting Package", props),
-            onClick: e => addReportingPackage(props)
+            onClick: (e) => addReportingPackage(props),
           },
           { name: "Go to Settings", linkTo: `/project/${_projectId}/details` },
-          { name: "Project info", onClick: e => editMetaData(props) },
+          { name: "Project info", onClick: (e) => editMetaData(props) },
           {},
-          { name: "Delete", onClick: e => deleteProject(e, projectId, project) }
+          {
+            name: "Delete",
+            onClick: (e) => deleteProject(e, projectId, project),
+          },
         ]}
       />
     </MiniErrorBoundary>
@@ -273,17 +309,26 @@ const mapStateToProps = (state, ownProps) => {
   // Get the Traker and root ref/commit details
   let { trackerId, tracker } = getProjectProps(state, projectId);
   let rootRefId = tracker ? tracker.get("root_master") : null;
-  let rootRef = rootRefId ? state.getInPath(`entities.refs.byId.${rootRefId}`) : null;
+  let rootRef = rootRefId
+    ? state.getInPath(`entities.refs.byId.${rootRefId}`)
+    : null;
   let commitId = rootRef ? rootRef.getInPath("latest_commit.uid") : null;
-  let treeId = rootRef ? rootRef.getInPath("latest_commit.tree_root.uid") : null;
+  let treeId = rootRef
+    ? rootRef.getInPath("latest_commit.tree_root.uid")
+    : null;
 
   // Get the disciplines for this work package
-  let disciplines = state.getInPath(`entities.projectObjects.byId.${projectId}.disciplines`);
+  let disciplines = state.getInPath(
+    `entities.projectObjects.byId.${projectId}.disciplines`
+  );
   // Get the reporting periods for this project
-  let projectReportingPeriods = state.getInPath(`entities.projectReportingPeriods.byId.${projectId}`);
+  let projectReportingPeriods = state.getInPath(
+    `entities.projectReportingPeriods.byId.${projectId}`
+  );
 
   // Get the more detailed project information (including meta-data) if possible
-  let project = state.getInPath(`entities.projects.byId.${projectId}`) || _project;
+  let project =
+    state.getInPath(`entities.projects.byId.${projectId}`) || _project;
 
   return {
     project,
@@ -293,27 +338,33 @@ const mapStateToProps = (state, ownProps) => {
     rootCommitId: commitId,
     treeId,
     disciplines,
-    projectReportingPeriods
+    projectReportingPeriods,
   };
 };
 
-const ProjectAdminDropdownConnected = connect(mapStateToProps)(ProjectAdminDropdown);
+const ProjectAdminDropdownConnected =
+  connect(mapStateToProps)(ProjectAdminDropdown);
 
 export default function ProjectRow(props) {
-  let { project, depth, currentIds={} } = props;
-  let projectId = project?.get("uid")
+  let { project, depth, currentIds = {} } = props;
+  let projectId = project?.get("uid");
 
-  let [collapsed, setCollapsed] = useState(projectId ? localStorage.getItem(`sidebar-${projectId}`, "false") == "true" : false)
-  
+  let [collapsed, setCollapsed] = useState(
+    projectId
+      ? localStorage.getItem(`sidebar-${projectId}`, "false") == "true"
+      : false
+  );
+
   if (!project) {
     return null;
   }
-  
+
   let currentId = currentIds.projectId;
   let isCurrentProject = currentId ? currentId == projectId : false;
 
   let currentRefOrProjectId = currentIds.refId || currentIds.projectId;
-  let isCurrentRefOrProject = currentRefOrProjectId && currentRefOrProjectId == projectId;
+  let isCurrentRefOrProject =
+    currentRefOrProjectId && currentRefOrProjectId == projectId;
 
   let bgColor = isCurrentProject && !currentIds.refId ? "bg-info" : "";
 
@@ -324,15 +375,20 @@ export default function ProjectRow(props) {
         <Indent
           depth={depth}
           expanded={isCurrentProject}
-          onClickHandler={e => {
-            let _value = !collapsed
-            localStorage.setItem(`sidebar-${projectId}`, _value)
-            setCollapsed(_value)
+          onClickHandler={(e) => {
+            let _value = !collapsed;
+            localStorage.setItem(`sidebar-${projectId}`, _value);
+            setCollapsed(_value);
           }}
         />
 
-        <p className={`m-0 p-0 mr-2 col`} style={{ display: "inline-block", verticalAlign: "middle" }}>
-          <Link to={`/project/${projectId.substring(0, 8)}`}>{project.get("name")}</Link>
+        <p
+          className={`m-0 p-0 mr-2 col`}
+          style={{ display: "inline-block", verticalAlign: "middle" }}
+        >
+          <Link to={`/project/${projectId.substring(0, 8)}`}>
+            {project.get("name")}
+          </Link>
         </p>
 
         <MiniErrorBoundary>
@@ -344,7 +400,9 @@ export default function ProjectRow(props) {
         </MiniErrorBoundary>
       </div>
 
-      {isCurrentProject ? <ProjectWPTree projectId={projectId} hideDelete={true} {...props} /> : null}
+      {isCurrentProject ? (
+        <ProjectWPTree projectId={projectId} hideDelete={true} {...props} />
+      ) : null}
     </React.Fragment>
   );
 }

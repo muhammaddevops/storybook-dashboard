@@ -13,22 +13,23 @@ import {
   getFetchBody,
   getReverseIconNames,
   reduxDataPath,
-  sortAndCropData
+  sortAndCropData,
 } from "./helpers";
-import ProjectReportCommitStatus from "AppSrc/dashboards/lists/projectCommitStatus";
+import ProjectReportCommitStatus from "storybook-dashboard/dashboards/lists/projectCommitStatus";
 
-const getPreDispatchHook = props => action => {
+const getPreDispatchHook = (props) => (action) => {
   let { fetchBody } = props;
   action.fetchParams.body = fetchBody;
   action.fetchParams.headers = { "content-type": "application/json" };
   action.fetchParams.rawBody = false;
   //action.fetchParams.throttleTimeCheck = 1000 * 3600; // Throttle request to every hour (to prevent calling backend every click)
-  action.stateParams.stateSetFunc = (state, data) => dataToState(props, state, data);
+  action.stateParams.stateSetFunc = (state, data) =>
+    dataToState(props, state, data);
   console.log("Calling dispatch for ISSUE_RAG data", action);
   return action;
 };
 
-const SustainabilityPanel = props => {
+const SustainabilityPanel = (props) => {
   let [maxIconHeight, setMaxIconHeight] = useState(0);
   let [currentElementHeight, setCurrentElementHeight] = useState(0);
   let [selected, setSelected] = useState(null);
@@ -49,7 +50,7 @@ const SustainabilityPanel = props => {
     data,
     fromDate,
     toDate,
-    isRootRef
+    isRootRef,
   } = props;
 
   useEffect(() => {
@@ -63,21 +64,27 @@ const SustainabilityPanel = props => {
           "post",
           {},
           {
-            preDispatchHook: getPreDispatchHook(props)
+            preDispatchHook: getPreDispatchHook(props),
           }
-        )
-      ]
+        ),
+      ],
     });
   }, [companyId, trackerId, query_string]);
 
   useEffect(() => {
     let key = "ISSUE_RAG_DATA";
-    let iconColors = dataToIconColors(sortAndCropData(data, fromDate, toDate, key), key);
-    console.log("Data has changed. Recalculated ISSUE_RAG icon colors", iconColors?.toJS());
+    let iconColors = dataToIconColors(
+      sortAndCropData(data, fromDate, toDate, key),
+      key
+    );
+    console.log(
+      "Data has changed. Recalculated ISSUE_RAG icon colors",
+      iconColors?.toJS()
+    );
     setIconColors(iconColors);
   }, [hostId, fetchBody, query_params, filterHash, data]);
 
-  const iconHeightHandler = element => {
+  const iconHeightHandler = (element) => {
     let eleHeight = element.clientHeight;
     let TOL = 0.98; // Use a tolerance
     if (currentElementHeight < eleHeight * TOL) {
@@ -98,7 +105,12 @@ const SustainabilityPanel = props => {
 
   let iconWidth = "col-sm-6 col-md-3 col-l-2 col-xl-2";
   if (!iconColors || !iconColors.size) {
-    return <Spinner title="Loading dashboard data" timedOutComment="No dashboard data found" />;
+    return (
+      <Spinner
+        title="Loading dashboard data"
+        timedOutComment="No dashboard data found"
+      />
+    );
   }
 
   // Flip the icon names
@@ -159,16 +171,22 @@ const mapStateToProps = (state, ownProps) => {
   let _ownProps = { ...ownProps, cumulation: "total" };
 
   // Add the body of our API data call to the props (so we can get it in the requiredFetches above)
-  let { fetchBody, filterHash, queryParams: query_params } = getFetchBody(_ownProps, "ISSUE_RAG_DATA");
+  let {
+    fetchBody,
+    filterHash,
+    queryParams: query_params,
+  } = getFetchBody(_ownProps, "ISSUE_RAG_DATA");
   let query_string = new URLSearchParams(query_params).toString();
 
   // Load any data that has been fetched to redux
-  let data = state.getInPath(`entities.${reduxDataPath({ ..._ownProps, filterHash })}`);
+  let data = state.getInPath(
+    `entities.${reduxDataPath({ ..._ownProps, filterHash })}`
+  );
 
   // Get the reporting periods
   let selectedReportingPeriods = data
     ?.toList()
-    .sortBy(i => i.get("startDate"))
+    .sortBy((i) => i.get("startDate"))
     .reverse()
     .slice(0, 6)
     .reverse();
@@ -176,7 +194,16 @@ const mapStateToProps = (state, ownProps) => {
   // Get the path for the icons to use
   let iconPath = state.getInPath(`ui.styles.iconPath`);
 
-  return { hostId, fetchBody, filterHash, query_params, query_string, data, iconPath, selectedReportingPeriods };
+  return {
+    hostId,
+    fetchBody,
+    filterHash,
+    query_params,
+    query_string,
+    data,
+    iconPath,
+    selectedReportingPeriods,
+  };
 };
 
 export default connect(mapStateToProps)(SustainabilityPanel);

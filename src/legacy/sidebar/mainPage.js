@@ -3,16 +3,16 @@ import { Route, Switch } from "react-router-dom";
 
 import Traec from "traec";
 
-import { Footer } from "AppSrc/footer";
+import { Footer } from "storybook-dashboard/footer";
 import { connect } from "react-redux";
 
 import { setNavBarItems } from "traec-react/navBar";
 import { setSideBarItems } from "traec-react/sideBar";
 import { ErrorBoundary } from "traec-react/errors";
 
-import AccountTree from "AppSrc/tree";
-import { CompanyRouter } from "AppSrc/company/router";
-import { ProjectRouter } from "AppSrc/project/router";
+import AccountTree from "storybook-dashboard/tree";
+import { CompanyRouter } from "storybook-dashboard/company/router";
+import { ProjectRouter } from "storybook-dashboard/project/router";
 
 import BootstrapSplitPane from "traec-react/utils/bootstrap/splitbs";
 
@@ -23,7 +23,7 @@ class CompanyProjectPage extends React.Component {
     this.state = {
       setNavBar: false,
       setSideBar: false,
-      showSideBar: true
+      showSideBar: true,
     };
 
     // Data required from the API for this Component
@@ -62,7 +62,7 @@ class CompanyProjectPage extends React.Component {
     dispatch({
       type: "UI_SET_IN",
       payload: setStyles,
-      stateParams: { itemPath: `styles` }
+      stateParams: { itemPath: `styles` },
     });
   }
 
@@ -98,17 +98,20 @@ class CompanyProjectPage extends React.Component {
               onExpandHook={() => {
                 this.setState({ showSideBar: true });
               }}
-              onDragFinished={draggedSize => {
+              onDragFinished={(draggedSize) => {
                 this.setState({ draggedSize });
               }}
               pane1Style={{
-                borderRight: "1px solid grey"
+                borderRight: "1px solid grey",
               }}
             >
               <div>
                 <ErrorBoundary>
                   <Switch>
-                    <Route path={["/:_type/:_id/wpack/:_refId", "/:_type/:_id"]} component={AccountTree} />
+                    <Route
+                      path={["/:_type/:_id/wpack/:_refId", "/:_type/:_id"]}
+                      component={AccountTree}
+                    />
                   </Switch>
                 </ErrorBoundary>
               </div>
@@ -116,11 +119,20 @@ class CompanyProjectPage extends React.Component {
                 <ErrorBoundary>
                   <Switch>
                     {/* Route to a Company Dashboard */}
-                    <Route path="/company/:_companyId" component={CompanyRouter} />
+                    <Route
+                      path="/company/:_companyId"
+                      component={CompanyRouter}
+                    />
 
                     {/* Route to a Project or WorkPackage Dashboard */}
-                    <Route path="/project/:_projectId/wpack/:_refId" component={ProjectRouter} />
-                    <Route path="/project/:_projectId" component={ProjectRouter} />
+                    <Route
+                      path="/project/:_projectId/wpack/:_refId"
+                      component={ProjectRouter}
+                    />
+                    <Route
+                      path="/project/:_projectId"
+                      component={ProjectRouter}
+                    />
                   </Switch>
                 </ErrorBoundary>
               </div>
@@ -134,13 +146,18 @@ class CompanyProjectPage extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { companyId, projectId } = Traec.utils.getFullIds(state, ownProps.match.params);
+  const { companyId, projectId } = Traec.utils.getFullIds(
+    state,
+    ownProps.match.params
+  );
   let company = state.getInPath(`entities.companies.byId.${companyId}`);
   let project = state.getInPath(`entities.projects.byId.${projectId}`);
 
   // Get the company styles (if provided)
   let host = company || project;
-  let styles = host ? host.getInPath("meta_json.styles") || Traec.Im.Map() : Traec.Im.Map();
+  let styles = host
+    ? host.getInPath("meta_json.styles") || Traec.Im.Map()
+    : Traec.Im.Map();
   let currentStyles = state.getInPath("ui.styles") || Traec.Im.Map();
   let setStyles = styles.equals(currentStyles) ? null : styles;
   //console.log("Got styles from", host, setStyles);

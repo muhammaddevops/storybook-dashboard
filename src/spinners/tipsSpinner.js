@@ -1,8 +1,9 @@
-import React from "react";
-import "./tipsSpinner.css";
+import "./spinnerStyles.css";
 import { sustainabilityTips } from "./sustainabilityTips";
+import React, { useState } from "react";
 
-function TipsSpinner() {
+function TipsSpinner({ message }) {
+  let [timedout, setTimedout] = useState(false);
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
@@ -10,7 +11,13 @@ function TipsSpinner() {
   let randomTip = getRandomInt(sustainabilityTips.length);
   let tipAtRuntime = randomTip;
 
-  return (
+  setTimeout(() => {
+    setTimedout(true);
+  }, 13000);
+
+  return timedout ? (
+    <div className="alert alert-warning text center">No data available. Please try again later.</div>
+  ) : (
     <div className="tip-spinner col">
       <div className="spinner ">
         <div className="spinner-sector spinner-sector-top"></div>
@@ -27,23 +34,18 @@ function TipsSpinner() {
           >
             <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2z" />
           </svg>
-          <p style={{ fontSize: "1.5rem" }}> Building...</p>
-          <p> This will take a few seconds</p>
+          <p style={{ fontSize: "1.3rem" }}> Loading...</p>
         </div>
       </div>
       <div className="tips">
-        <p>
+        {message ? <p>{message}</p> : <></>}
+        {/* <p>
           Tip: {sustainabilityTips[tipAtRuntime].message}{" "}
-          <a
-            href={sustainabilityTips[tipAtRuntime].link}
-            rel="noreferrer"
-            target="_blank"
-            className="badge badge-dark"
-          >
+          <a href={sustainabilityTips[tipAtRuntime].link} rel="noreferrer" target="_blank" className="badge badge-dark">
             Click here
           </a>{" "}
           to learn how.
-        </p>
+        </p> */}
       </div>
       {console.log("tipAtRuntime >", tipAtRuntime)}
     </div>

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Traec from "traec";
 
 import CompanyTreeRow from "./companyRow";
-import { getProjectProps } from "AppSrc/legacy/utils/getters";
+import { getProjectProps } from "storybook-dashboard/legacy/utils/getters";
 
 const get_root_company = (company, companyList) => {
   // Get the root company from a list of companies
@@ -30,7 +30,7 @@ class CompanyTree extends React.Component {
       new Traec.Fetch("company", "read"),
       new Traec.Fetch("company", "list"),
       new Traec.Fetch("project", "read"),
-      new Traec.Fetch("project", "list")
+      new Traec.Fetch("project", "list"),
     ];
   }
 
@@ -49,33 +49,48 @@ class CompanyTree extends React.Component {
       return <p>No company defined</p>;
     }
 
-    let rootCompany = fromHere ? company : get_root_company(company, companyList);
+    let rootCompany = fromHere
+      ? company
+      : get_root_company(company, companyList);
 
     return (
       <div className="container-fluid mt-3 m-0 p-0">
-        <CompanyTreeRow 
-          {...this.props} 
+        <CompanyTreeRow
+          {...this.props}
           isRoot={true}
-          depth={0} 
-          company={rootCompany} 
+          depth={0}
+          company={rootCompany}
         />
       </div>
     );
   }
 }
 
-const getCompanyPath = (companyId, companies, path=Traec.Im.List(), depth=0, max_depth=30) => {
-  let parentId = companies?.get(companyId)?.get("parentid")
-  if (!parentId || (depth > max_depth)) { return path }
-  return getCompanyPath(parentId, companies, path=path.unshift(companyId), depth=depth+1)
-}
+const getCompanyPath = (
+  companyId,
+  companies,
+  path = Traec.Im.List(),
+  depth = 0,
+  max_depth = 30
+) => {
+  let parentId = companies?.get(companyId)?.get("parentid");
+  if (!parentId || depth > max_depth) {
+    return path;
+  }
+  return getCompanyPath(
+    parentId,
+    companies,
+    (path = path.unshift(companyId)),
+    (depth = depth + 1)
+  );
+};
 
 const mapStateToProps = (state, ownProps) => {
   let { _type, _id, _refId } = ownProps;
 
   let _params = {
     [`_${_type}Id`]: _id,
-    _refId
+    _refId,
   };
   let { companyId, projectId, refId } = Traec.utils.getFullIds(state, _params);
 
@@ -91,21 +106,37 @@ const mapStateToProps = (state, ownProps) => {
   let companyList = state.getInPath(`entities.companies.byId`);
 
   //let companyPath = getCompanyPath(companyId, companyList)
-  let companyPath = company?.get("ancestors")
-  let companyPathIds = Traec.Im.Set((companyPath || Traec.Im.List()).map(i => i.get("uid")))
+  let companyPath = company?.get("ancestors");
+  let companyPathIds = Traec.Im.Set(
+    (companyPath || Traec.Im.List()).map((i) => i.get("uid"))
+  );
 
   // Provide a default (in case the user doesn't have access to the parent company)
   if (project && !company) {
-    company = project.get("company").set("projects", Traec.Im.fromJS([project]));
+    company = project
+      .get("company")
+      .set("projects", Traec.Im.fromJS([project]));
   }
   if (project && company && !companyList) {
     companyList = Traec.Im.fromJS({ [company.get("uid")]: company });
   }
 
   // Get tenant meta-data info that we will pass down to
-  let tenant_meta = state.getInPath(`entities.tenant.meta_json`) || Traec.Im.Map();
+  let tenant_meta =
+    state.getInPath(`entities.tenant.meta_json`) || Traec.Im.Map();
 
-  return { companyId, projectId, refId, trackerId, company, companyList, companyPath, companyPathIds, currentIds, tenant_meta };
+  return {
+    companyId,
+    projectId,
+    refId,
+    trackerId,
+    company,
+    companyList,
+    companyPath,
+    companyPathIds,
+    currentIds,
+    tenant_meta,
+  };
 };
 
 export default connect(mapStateToProps)(CompanyTree);

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Traec from "traec";
 import { BSCard } from "traec-react/utils/bootstrap";
 import { DateString } from "../components";
-import { colorScale } from "AppSrc/dashboards/utils";
+import { colorScale } from "storybook-dashboard/dashboards/utils";
 import { Spinner } from "traec-react/utils/entities";
 import { dataToState, getFetchBody } from "../sustainabilityPanel/helpers";
 import { TitleTooltip, getRefsFromReportingPeriods } from "./utils";
@@ -21,11 +21,15 @@ const getStatus = ({ projectId, reportPeriod, refId }) => {
   if (status.startsWith("OK")) {
     status = "Approved";
   }
-  let content = result ? <Link to={`/project/${projectId}/wpack/${refId}/evals/`}>{status}</Link> : "No Report";
+  let content = result ? (
+    <Link to={`/project/${projectId}/wpack/${refId}/evals/`}>{status}</Link>
+  ) : (
+    "No Report"
+  );
   return { content, status, result };
 };
 
-const getColorFromStatus = status => {
+const getColorFromStatus = (status) => {
   let colorValue = null;
   switch (status) {
     case "Nothing Received":
@@ -44,9 +48,7 @@ const getColorFromStatus = status => {
     default:
       colorValue = null;
   }
-  return colorScale(colorValue)
-    .brighten(2)
-    .hex();
+  return colorScale(colorValue).brighten(2).hex();
 };
 
 function ReportCommitCell(props) {
@@ -54,7 +56,10 @@ function ReportCommitCell(props) {
   let [redirectTo, setRedirectTo] = useState(null);
 
   // Do any pending redirection
-  let redirectUrl = `/project/${projectId?.substring(0, 8)}/wpack/${refId?.substring(0, 8)}/`;
+  let redirectUrl = `/project/${projectId?.substring(
+    0,
+    8
+  )}/wpack/${refId?.substring(0, 8)}/`;
   if (redirectTo) {
     return <Redirect to={redirectTo} />;
   }
@@ -64,17 +69,25 @@ function ReportCommitCell(props) {
   let styleObj = {
     backgroundColor: getColorFromStatus(status),
     cursor: "pointer",
-    border: "1px solid gray"
+    border: "1px solid gray",
   };
 
   return (
-    <div className="col-sm-1" style={styleObj} onClick={() => setRedirectTo(redirectUrl)}>
+    <div
+      className="col-sm-1"
+      style={styleObj}
+      onClick={() => setRedirectTo(redirectUrl)}
+    >
       {content}
     </div>
   );
 }
 
-export const ReportCommitRow = function({ projectId, cref, selectedReportingPeriods }) {
+export const ReportCommitRow = function ({
+  projectId,
+  cref,
+  selectedReportingPeriods,
+}) {
   if (!cref) {
     return null;
   }
@@ -82,14 +95,23 @@ export const ReportCommitRow = function({ projectId, cref, selectedReportingPeri
     ? selectedReportingPeriods
         .toList()
         .map((reportPeriod, i) => (
-          <ReportCommitCell key={i} projectId={projectId} refId={cref.get("uid")} reportPeriod={reportPeriod} />
+          <ReportCommitCell
+            key={i}
+            projectId={projectId}
+            refId={cref.get("uid")}
+            reportPeriod={reportPeriod}
+          />
         ))
     : null;
 
   return (
     <div className="row">
       <div className="col-sm-5">
-        <Link to={`/project/${projectId.substring(0, 8)}/wpack/${cref.get("uid").substring(0, 8)}/`}>
+        <Link
+          to={`/project/${projectId.substring(0, 8)}/wpack/${cref
+            .get("uid")
+            .substring(0, 8)}/`}
+        >
           {cref.get("name")}
         </Link>
       </div>
@@ -121,27 +143,29 @@ export const ReportHeaderRow = ({ reportingPeriods }) => {
   );
 };
 
-const getPreDispatchHook = props => {
+const getPreDispatchHook = (props) => {
   let { fetchBody } = props;
-  return action => {
+  return (action) => {
     action.fetchParams.body = fetchBody;
     action.fetchParams.headers = { "content-type": "application/json" };
     action.fetchParams.rawBody = false;
     //action.fetchParams.throttleTimeCheck = 1000 * 3600; // Throttle request to every hour (to prevent calling backend every click)
-    action.stateParams.stateSetFunc = (state, data) => dataToState(props, state, data);
+    action.stateParams.stateSetFunc = (state, data) =>
+      dataToState(props, state, data);
     console.log("Calling tracker_dispatch for COMMIT_STATUS data", action);
     return action;
   };
 };
 
 function ProjectReportTableBody(props) {
-  let { projectId, categoryName, indicator, selectedReportingPeriods, refs } = props;
+  let { projectId, categoryName, indicator, selectedReportingPeriods, refs } =
+    props;
 
   // Map redux values to props, and sort results by name for reporting packages
   const rows = refs
     .toList()
-    .filter(cref => cref) // Ensure that all the refs are populated (no nulls)
-    .sortBy(cref => cref.get("name"))
+    .filter((cref) => cref) // Ensure that all the refs are populated (no nulls)
+    .sortBy((cref) => cref.get("name"))
     .map((cref, i) => {
       return (
         <ReportCommitRow
@@ -154,11 +178,14 @@ function ProjectReportTableBody(props) {
     });
 
   if (rows.size) {
-    let isListEmpty = rows.every(elem => !elem);
+    let isListEmpty = rows.every((elem) => !elem);
     if (isListEmpty && categoryName && indicator) {
       return (
         <React.Fragment>
-          <p>Indicator is computed from different Reporting Packages. Performance table can not be shown.</p>
+          <p>
+            Indicator is computed from different Reporting Packages. Performance
+            table can not be shown.
+          </p>
         </React.Fragment>
       );
     }
@@ -171,7 +198,10 @@ function ProjectReportTableBody(props) {
   } else {
     return (
       <React.Fragment>
-        <Spinner title="Loading Data..." timedOutComment="Insufficient data to generate table" />
+        <Spinner
+          title="Loading Data..."
+          timedOutComment="Insufficient data to generate table"
+        />
       </React.Fragment>
     );
   }
@@ -188,7 +218,14 @@ function ProjectReportCommitResults(props) {
   useEffect(() => {
     Traec.fetchRequiredFor({
       props,
-      requiredFetches: [new Traec.Fetch("tracker_dispatch", "post", {}, { preDispatchHook: getPreDispatchHook(props) })]
+      requiredFetches: [
+        new Traec.Fetch(
+          "tracker_dispatch",
+          "post",
+          {},
+          { preDispatchHook: getPreDispatchHook(props) }
+        ),
+      ],
     });
   }, []);
 
@@ -201,13 +238,19 @@ function ProjectReportCommitResults(props) {
           <TitleTooltip
             text={
               <p>
-                This table indicates whether data has been submitted, rejected or approved for each reporting package.
+                This table indicates whether data has been submitted, rejected
+                or approved for each reporting package.
               </p>
             }
           />
         </React.Fragment>
       }
-      body={<ProjectReportTableBody {...props} refs={getRefsFromReportingPeriods(props)} />}
+      body={
+        <ProjectReportTableBody
+          {...props}
+          refs={getRefsFromReportingPeriods(props)}
+        />
+      }
     />
   );
 }
@@ -215,17 +258,21 @@ function ProjectReportCommitResults(props) {
 const mapStateToProps = (state, ownProps) => {
   let { selectedReportingPeriods } = ownProps;
 
-  let { fetchBody, filterHash, queryParams: query_params } = getFetchBody(
+  let {
+    fetchBody,
+    filterHash,
+    queryParams: query_params,
+  } = getFetchBody(
     {
       ...ownProps,
-      filters: Traec.Im.Map()
+      filters: Traec.Im.Map(),
     },
     "PROJECT_REPORT_COMMIT_STATUS"
   );
 
   // For each reporting period turn the commit_results into a map by refId
   if (selectedReportingPeriods) {
-    selectedReportingPeriods = selectedReportingPeriods.map(rp => {
+    selectedReportingPeriods = selectedReportingPeriods.map((rp) => {
       let commitResults = rp.getInPath(`PROJECT_REPORT_COMMIT_STATUS`);
       let refResults = commitResults
         ? commitResults.mapEntries(([commitId, result]) => {
@@ -240,7 +287,7 @@ const mapStateToProps = (state, ownProps) => {
     fetchBody,
     query_params,
     filterHash,
-    selectedReportingPeriods
+    selectedReportingPeriods,
   };
 };
 

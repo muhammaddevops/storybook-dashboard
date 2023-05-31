@@ -3,7 +3,7 @@ import Traec from "traec";
 import { connect } from "react-redux";
 
 import WorkPackageRow from "./wpRow";
-import { getProjectProps } from "AppSrc/legacy/utils/getters";
+import { getProjectProps } from "storybook-dashboard/legacy/utils/getters";
 
 class ProjectWPTree extends React.Component {
   constructor(props) {
@@ -52,12 +52,16 @@ const mapStateToProps = (state, ownProps) => {
   // Get the root tree from the cref
   let commit = cref ? cref.get("latest_commit") : null;
   let rootTreeId = commit ? commit.get("root_tree") : null;
-  let rootTree = rootTreeId ? state.getInPath(`entities.trees.byId.${rootTreeId}`) : null;
+  let rootTree = rootTreeId
+    ? state.getInPath(`entities.trees.byId.${rootTreeId}`)
+    : null;
 
   // Get the Traker and ref details
   let tracker = state.getInPath(`entities.trackers.byId.${trackerId}`);
   let rootRefId = tracker ? tracker.get("root_master") : null;
-  let rootRef = rootRefId ? state.getInPath(`entities.refs.byId.${rootRefId}`) : null;
+  let rootRef = rootRefId
+    ? state.getInPath(`entities.refs.byId.${rootRefId}`)
+    : null;
 
   return { trackerId, commit, rootTree, company, tracker, rootRef, cref };
 };

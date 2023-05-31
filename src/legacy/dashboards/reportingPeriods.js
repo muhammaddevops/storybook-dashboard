@@ -1,20 +1,30 @@
 import Moment from "moment";
-import { parseReportingPeriods } from "AppSrc/dashboards";
+import { parseReportingPeriods } from "storybook-dashboard/dashboards";
 
-export const reportingPeriodsToFromDates = function(reportingPeriods) {
+export const reportingPeriodsToFromDates = function (reportingPeriods) {
   //console.log('REPORTING PERIODS')
   let startDate = null;
   let endDate = null;
   reportingPeriods.map(
-    period =>
-      ({ startDate, endDate } = isAboveOrBelowDate(startDate, period.get("startDate"), endDate, period.get("endDate")))
+    (period) =>
+      ({ startDate, endDate } = isAboveOrBelowDate(
+        startDate,
+        period.get("startDate"),
+        endDate,
+        period.get("endDate")
+      ))
     //console.log(period.toJS())
   );
   //console.log("START DATE", startDate, "END DATE", endDate)
   return { startDate, endDate };
 };
 
-export const isAboveOrBelowDate = function(startDateOrigin, startDate, endDateOrigin, endDate) {
+export const isAboveOrBelowDate = function (
+  startDateOrigin,
+  startDate,
+  endDateOrigin,
+  endDate
+) {
   //console.log('START DATE', startDate, startDateOrigin, Moment(startDate).isBefore(Moment(startDateOrigin)))
   //console.log('END DATE', endDate, endDateOrigin, Moment(endDate).isAfter(Moment(endDateOrigin)))
   //console.log('')
@@ -30,7 +40,12 @@ export const isAboveOrBelowDate = function(startDateOrigin, startDate, endDateOr
   return { startDate: startDateOrigin, endDate: endDateOrigin };
 };
 
-export const shouldComponentReFetch = function(reportingPeriods, newDate, prevCommitId, prevIsCumulative) {
+export const shouldComponentReFetch = function (
+  reportingPeriods,
+  newDate,
+  prevCommitId,
+  prevIsCumulative
+) {
   let shouldReFetch = false;
 
   if (prevIsCumulative != this.props.isCumulative) {
@@ -41,7 +56,7 @@ export const shouldComponentReFetch = function(reportingPeriods, newDate, prevCo
   if (prevCommitId !== this.props.refId) {
     this.setState({
       fetchedReportingPeriods: false,
-      parsedReportingPeriods: false
+      parsedReportingPeriods: false,
     });
 
     return true;
@@ -53,12 +68,14 @@ export const shouldComponentReFetch = function(reportingPeriods, newDate, prevCo
     //console.log(this.state.fromDate.isBefore(Moment(startDate).subtract(1, 'month')), this.state.toDate.isAfter(Moment(endDate).add(1, 'month')))
 
     if (newDate.fromDate) {
-      let becauseDate = newDate.fromDate.isBefore(Moment(startDate).subtract(1, "month"));
+      let becauseDate = newDate.fromDate.isBefore(
+        Moment(startDate).subtract(1, "month")
+      );
       if (becauseDate) {
         //console.log("SETTING TO FALSE 1", newDate.fromDate, startDate, this.state);
         this.setState({
           fetchedReportingPeriods: false,
-          parsedReportingPeriods: false
+          parsedReportingPeriods: false,
         });
       }
       return becauseDate;
@@ -67,7 +84,7 @@ export const shouldComponentReFetch = function(reportingPeriods, newDate, prevCo
       if (becauseDate) {
         this.setState({
           fetchedReportingPeriods: false,
-          parsedReportingPeriods: false
+          parsedReportingPeriods: false,
         });
       }
       return becauseDate;
@@ -77,7 +94,14 @@ export const shouldComponentReFetch = function(reportingPeriods, newDate, prevCo
   }
 };
 
-export const shouldDashboardReparse = function(prevId, prevReports, currentId, currentReports, prevProps, thisProps) {
+export const shouldDashboardReparse = function (
+  prevId,
+  prevReports,
+  currentId,
+  currentReports,
+  prevProps,
+  thisProps
+) {
   // If we have changed cumulative to current
   if (prevProps.isCumulative !== thisProps.isCumulative) {
     return true;
@@ -88,7 +112,12 @@ export const shouldDashboardReparse = function(prevId, prevReports, currentId, c
   }
 };
 
-export const fetchAndParse = function(reportingPeriods, targets, reParseData, reportType = "project") {
+export const fetchAndParse = function (
+  reportingPeriods,
+  targets,
+  reParseData,
+  reportType = "project"
+) {
   // Get the reporting periods for this project (for the submit form at the bottom)
   if (!reportingPeriods || !this.state.fetchedReportingPeriods) {
     if (!this.state.fetchedReportingPeriods) {
@@ -102,7 +131,7 @@ export const fetchAndParse = function(reportingPeriods, targets, reParseData, re
         indicatorData: null,
         iconColors: {},
         parsedReportingPeriods: false,
-        fetchedReportingPeriods: true
+        fetchedReportingPeriods: true,
       });
     } else {
       //console.log("Calling fetchProjectReportingPeriods")
@@ -116,7 +145,7 @@ export const fetchAndParse = function(reportingPeriods, targets, reParseData, re
           indicatorData: null,
           iconColors: {},
           parsedReportingPeriods: false,
-          fetchedReportingPeriods: false
+          fetchedReportingPeriods: false,
         });
       }
     }
@@ -126,26 +155,27 @@ export const fetchAndParse = function(reportingPeriods, targets, reParseData, re
   if (reportingPeriods && (!this.state.parsedReportingPeriods || reParseData)) {
     //Parsing for Icon Charts
     //console.log("Re-parsing PROJECT data")
-    let data = parseReportingPeriods(reportingPeriods, targets, this.state.fromDate, this.state.toDate);
+    let data = parseReportingPeriods(
+      reportingPeriods,
+      targets,
+      this.state.fromDate,
+      this.state.toDate
+    );
     //debugger
     //console.log("parsed PROJECT DATA", data)
     this.setState({
       indicatorData: data.indicators,
       iconColors: data.iconColors,
-      parsedReportingPeriods: true
+      parsedReportingPeriods: true,
     });
   }
 };
 
-export const setDateRangeValue = function(e) {
+export const setDateRangeValue = function (e) {
   let { name, value } = e.target;
 
   // Adjust the value to the beginning of the day and remove timezone
-  let momentValue = value
-    ? Moment(value)
-        .utc(true)
-        .startOf("day")
-    : null;
+  let momentValue = value ? Moment(value).utc(true).startOf("day") : null;
   //console.log("Moment value", momentValue);
 
   let defaultValue = new Moment().endOf("day");
@@ -155,18 +185,27 @@ export const setDateRangeValue = function(e) {
 
   this.setState({
     [name]: momentValue || defaultValue,
-    parsedReportingPeriods: false
+    parsedReportingPeriods: false,
   });
   // Also save to localStorage
   let { companyId, projectId, refId } = this.props;
 
   // Use 8-character UUIDs for saving the date range
-  let _projectId = projectId && typeof projectId == "string" ? projectId.substring(0, 8) : undefined;
-  let _refId = refId && typeof refId == "string" ? refId.substring(0, 8) : undefined;
-  let _companyId = companyId && typeof companyId == "string" ? companyId.substring(0, 8) : undefined;
+  let _projectId =
+    projectId && typeof projectId == "string"
+      ? projectId.substring(0, 8)
+      : undefined;
+  let _refId =
+    refId && typeof refId == "string" ? refId.substring(0, 8) : undefined;
+  let _companyId =
+    companyId && typeof companyId == "string"
+      ? companyId.substring(0, 8)
+      : undefined;
 
   if (momentValue) {
-    let key = _companyId ? `${name}:${_companyId}` : `${name}:${_projectId}_${_refId}`;
+    let key = _companyId
+      ? `${name}:${_companyId}`
+      : `${name}:${_projectId}_${_refId}`;
     let storageValue = momentValue.toISOString();
     console.log(`Setting localStorage key: ${key} to ${storageValue}`);
     localStorage.setItem(key, storageValue);
@@ -174,8 +213,12 @@ export const setDateRangeValue = function(e) {
 
   let { projectReportingPeriods, companyReportingPeriods } = this.props;
   if (projectReportingPeriods) {
-    this.shouldComponentReFetch(projectReportingPeriods, { [name]: momentValue });
+    this.shouldComponentReFetch(projectReportingPeriods, {
+      [name]: momentValue,
+    });
   } else if (companyReportingPeriods) {
-    this.shouldComponentReFetch(companyReportingPeriods, { [name]: momentValue });
+    this.shouldComponentReFetch(companyReportingPeriods, {
+      [name]: momentValue,
+    });
   }
 };

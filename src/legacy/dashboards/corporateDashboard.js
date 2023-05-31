@@ -1,12 +1,12 @@
 import React from "react";
 import { BSCard, BSCardGrid } from "traec-react/utils/bootstrap";
-import { BarChart, LineChart } from "AppSrc/charts";
+import { BarChart, LineChart } from "storybook-dashboard/charts";
 
 class ReportingPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartData: props.chartData
+      chartData: props.chartData,
     };
   }
 
@@ -25,7 +25,7 @@ class TargetPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartData: props.chartData
+      chartData: props.chartData,
     };
   }
 

@@ -16,47 +16,49 @@ body {
 }
 .spinner {
   margin: 0;
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   justify-content: center;
   align-items: center;
-  line-height: 1.6;
+  line-height: 1.5;
   overflow: hidden;
   position: relative;
   animation: text-color 2s ease-in-out infinite alternate;
 }
 .spinner-children {
-  padding-top: 70px;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   text-align: center;
+  padding-top: 50px;
 }
 .spinner-children p {
-  margin: 0;
+  margin-top: 0;
 }
 .spinner-sector {
   position: absolute;
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 15px solid transparent;
+  border: 10px solid transparent;
   mix-blend-mode: overlay;
   animation: rotate var(--duration) var(--timing) infinite;
   pointer-events: none;
 }
 .spinner-sector-top {
-  border-top-color: #b9e472;
+  border-top-color: #2081c5;
   --duration: 1.5s;
   --timing: ease-in-out;
 }
 
 .spinner-sector-left {
-  border-left-color: #f3f3f3;
+  border-left-color: #f3f3f38d;
   --duration: 2s;
   --timing: ease-in;
 }
 
 .spinner-sector-right {
-  border-right-color: #233b4b;
+  border-right-color: #181b33;
   --duration: 2.5s;
   --timing: ease-out;
 }

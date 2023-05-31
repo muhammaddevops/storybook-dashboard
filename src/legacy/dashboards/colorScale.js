@@ -1,5 +1,5 @@
 import React from "react";
-import { getColor } from "AppSrc/dashboards/utils";
+import { getColor } from "storybook-dashboard/dashboards/utils";
 
 export function ColorScale({ show, nCells = 64 }) {
   if (!show) {
@@ -7,9 +7,11 @@ export function ColorScale({ show, nCells = 64 }) {
   }
 
   let ints = [...Array(nCells).keys()];
-  let floats = ints.map(i => i / (nCells - 1));
+  let floats = ints.map((i) => i / (nCells - 1));
 
-  let colorCells = floats.map((f, i) => <td key={i} style={{ backgroundColor: getColor(f).hex() }} />);
+  let colorCells = floats.map((f, i) => (
+    <td key={i} style={{ backgroundColor: getColor(f).hex() }} />
+  ));
 
   return (
     <table height="30px" width="100%">
